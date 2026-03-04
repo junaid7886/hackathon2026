@@ -402,6 +402,46 @@ app.get('/api/health-records/vitals', (req, res) => {
     res.json(vitals);
 });
 
+// ==================== ML CHATBOT API ====================
+
+// Get symptoms list
+app.get('/api/symptoms', (req, res) => {
+    res.json({
+        symptoms: [
+            'itching', 'skin_rash', 'nodal_skin_eruptions', 'continuous_sneezing', 'shivering',
+            'chills', 'joint_pain', 'stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting',
+            'vomiting', 'burning_micturition', 'spotting_urination', 'fatigue', 'weight_gain',
+            'anxiety', 'cold_hands_and_feets', 'mood_swings', 'weight_loss', 'restlessness',
+            'lethargy', 'patches_in_throat', 'irregular_sugar_level', 'cough', 'high_fever',
+            'sunken_eyes', 'breathlessness', 'sweating', 'dehydration', 'indigestion', 'headache',
+            'yellowish_skin', 'dark_urine', 'nausea', 'loss_of_appetite', 'pain_behind_the_eyes',
+            'back_pain', 'constipation', 'abdominal_pain', 'diarrhoea', 'mild_fever', 'yellow_urine',
+            'yellowing_of_eyes', 'acute_liver_failure', 'fluid_overload', 'swelling_of_stomach'
+        ]
+    });
+});
+
+// Chat endpoint (disease prediction)
+app.post('/api/chat', (req, res) => {
+    const { message } = req.body;
+    
+    // Fallback response when ML model is not available
+    const response = {
+        prediction: null,
+        message: 'Based on your description: ' + message,
+        recommendations: [
+            'Consult with a healthcare professional for accurate diagnosis',
+            'Keep track of your symptoms',
+            'Maintain a healthy lifestyle',
+            'Follow prescribed medications if any'
+        ],
+        severity: 'moderate',
+        confidence: 0.5
+    };
+    
+    res.json(response);
+});
+
 // ==================== SERVE STATIC FILES ====================
 
 // Serve pages
