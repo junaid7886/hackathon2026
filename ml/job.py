@@ -13,9 +13,14 @@ import re
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend access
 
-# Paths
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MODEL_DIR = os.path.join(BASE_DIR, 'ml', 'models')
+# Paths - handle both local development and production deployment
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Check if models folder exists in current directory (production) or parent (local dev)
+if os.path.exists(os.path.join(SCRIPT_DIR, 'models')):
+    MODEL_DIR = os.path.join(SCRIPT_DIR, 'models')
+else:
+    BASE_DIR = os.path.dirname(SCRIPT_DIR)
+    MODEL_DIR = os.path.join(BASE_DIR, 'ml', 'models')
 
 # Global variables for model and metadata
 model = None
@@ -563,6 +568,10 @@ def chat():
         'prediction': result
     })
 
+# Auto-load model when module is imported (for gunicorn)
+print("Initializing Disease Prediction API...")
+load_model()
+
 if __name__ == '__main__':
     print("=" * 50)
     print("Disease Prediction Chatbot API")
@@ -572,8 +581,11 @@ if __name__ == '__main__':
     if not load_model():
         print("\nTo train the model, run: python final_code.py")
     
+    # Get port from environment variable (for Railway/Render deployment)
+    port = int(os.environ.get('PORT', 5000))
+    
     # Start the server
-    print("\nStarting server on http://localhost:5000")
+    print(f"\nStarting server on http://0.0.0.0:{port}")
     print("\nEndpoints:")
     print("  GET  /api/health    - Health check")
     print("  GET  /api/symptoms  - List all symptoms")
@@ -581,4 +593,4 @@ if __name__ == '__main__':
     print("  POST /api/predict   - Predict disease from symptoms")
     print("  POST /api/chat      - Chatbot conversation")
     
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=False)
