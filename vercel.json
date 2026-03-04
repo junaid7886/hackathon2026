@@ -1,9 +1,31 @@
 {
     "version": 2,
+    "public": true,
     "buildCommand": "npm run build || true",
+    "outputDirectory": "./",
     "env": {
         "NODE_ENV": "production"
     },
+    "headers": [
+        {
+            "source": "/css/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=3600"
+                }
+            ]
+        },
+        {
+            "source": "/js/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=3600"
+                }
+            ]
+        }
+    ],
     "routes": [
         {
             "src": "/api/auth.*",
@@ -26,8 +48,12 @@
             "dest": "/api/stats.js"
         },
         {
-            "src": "/(.*)",
+            "src": "/(.*\\..*)",
             "dest": "/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
         }
     ]
 }
