@@ -1,7 +1,7 @@
 {
-  "name": "ruralmed-ai-backend",
+  "name": "quick-care",
   "version": "1.0.0",
-  "description": "Backend server for RuralMed AI Healthcare Platform",
+  "description": "Backend server for Quick Care Healthcare Platform",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -16,6 +16,6 @@
   "engines": {
     "node": ">=18.x"
   },
-  "author": "RuralMed AI Team",
+  "author": "Quick Care Team",
   "license": "MIT"
 }

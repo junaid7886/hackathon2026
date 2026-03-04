@@ -288,7 +288,7 @@ app.listen(PORT, () => {
     console.log(`
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║   🏥 RuralMed AI Backend Server                          ║
+║   🏥 Quick Care Backend Server                          ║
 ║                                                           ║
 ║   Server running at: http://localhost:${PORT}              ║
 ║                                                           ║
@@ -302,3 +302,6 @@ app.listen(PORT, () => {
 ╚═══════════════════════════════════════════════════════════╝
     `);
 });
+
+
+

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   RuralMed AI — Main Application JavaScript
+   Quick Care — Main Application JavaScript
    ═══════════════════════════════════════════════════════════════════════════ */
 
 // ═══════════════════════════════════════════
@@ -1414,3 +1414,4 @@ window.analyzeSkin = analyzeSkin;
 window.showEmergencyOverlay = showEmergencyOverlay;
 window.hideEmergencyOverlay = hideEmergencyOverlay;
 window.showToast = showToast;
+

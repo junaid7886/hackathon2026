@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   RuralMed AI — Data Store
+   Quick Care — Data Store
    ═══════════════════════════════════════════════════════════════════════════ */
 
 // Language Translations
@@ -746,3 +746,4 @@ if (typeof window !== 'undefined') {
     window.SKIN_CONDITIONS = SKIN_CONDITIONS;
     window.SPECIALIZATIONS = SPECIALIZATIONS;
 }
+

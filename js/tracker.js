@@ -1,5 +1,5 @@
 /**
- * RuralMed AI Activity Tracker
+ * Quick Care Activity Tracker
  * This script tracks user activities across all pages
  */
 
@@ -352,3 +352,5 @@ if (document.readyState === 'loading') {
 
 // Make it globally available
 window.ActivityTracker = ActivityTracker;
+
+

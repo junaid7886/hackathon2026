@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>RuralMed AI — Early Risk Detection</title>
+    <title>Quick Care — Early Risk Detection</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
          :root {
@@ -1744,7 +1744,7 @@
     <div id="screen-auth" class="screen auth-screen active">
         <div class="auth-hero">
             <span class="auth-hero-icon">🏥</span>
-            <h1>RuralMed AI</h1>
+            <h1>Quick Care</h1>
             <p>Early Risk Detection & Smart Health Guidance for Rural Communities</p>
             <div style="margin-top:16px;">
                 <div class="lang-pill" style="justify-content:center; display:inline-flex;">
@@ -1771,7 +1771,7 @@
                     <input type="password" id="loginPass" class="form-input" placeholder="Enter password">
                 </div>
                 <button class="btn btn-primary" onclick="doLogin()" style="margin-top:8px;">
-        <span>🔐</span> Login to RuralMed AI
+        <span>🔐</span> Login to Quick Care
       </button>
                 <p style="text-align:center; margin-top:16px; font-size:0.82rem; color:var(--gray);">
                     Demo: use any email & password
@@ -1829,7 +1829,7 @@
         <div class="topbar">
             <div class="topbar-logo">
                 <div class="logo-icon">🏥</div>
-                <span class="logo-text">Rural<span>Med</span> AI</span>
+                <span class="logo-text">Quick<span>Care</span></span>
             </div>
             <div class="lang-pill">
                 <button class="active" onclick="setLang('en')">EN</button>
@@ -1926,7 +1926,7 @@
         <div class="chat-messages" id="chatMessages">
             <div class="chat-welcome">
                 <div class="chat-welcome-card">
-                    <h3>👋 Hi! I'm RuralMed AI</h3>
+                    <h3>👋 Hi! I'm Quick Care</h3>
                     <p>Tell me your health problem in <strong>English, Hindi, or Telugu</strong>. I'll assess your risk level and recommend what to do next. You can also use your <strong>voice 🎤</strong> or upload a skin photo 📷.</p>
                 </div>
             </div>
@@ -2708,7 +2708,7 @@
                     body: JSON.stringify({
                         model: 'claude-sonnet-4-20250514',
                         max_tokens: 1000,
-                        system: `You are RuralMed AI, a compassionate medical triage assistant for rural India. ${profileCtx}
+                        system: `You are Quick Care, a compassionate medical triage assistant for rural India. ${profileCtx}
 
 Respond ONLY with valid JSON (no markdown, no code blocks):
 {
