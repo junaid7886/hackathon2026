@@ -409,8 +409,30 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Route for /pages/:page (e.g., /pages/dashboard)
 app.get('/pages/:page', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', req.params.page));
+    res.sendFile(path.join(__dirname, 'pages', req.params.page + '.html'));
+});
+
+// Route for direct page access (e.g., /dashboard.html or /dashboard)
+app.get('/:page.html', (req, res) => {
+    const filePath = path.join(__dirname, 'pages', req.params.page + '.html');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            res.status(404).json({ error: 'Page not found' });
+        }
+    });
+});
+
+// Route for page without extension (e.g., /dashboard)
+app.get('/:page', (req, res) => {
+    const filePath = path.join(__dirname, 'pages', req.params.page + '.html');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            // If file doesn't exist, send 404
+            res.status(404).send('Page not found');
+        }
+    });
 });
 
 // Start server

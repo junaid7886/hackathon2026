@@ -1,6 +1,306 @@
 {
   "activities": [
     {
+      "id": "act_1772638661614_exkill0ww",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "index",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772638440174_pgj9xks2t",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.109.5 Chrome/142.0.7444.265 Electron/39.3.0 Safari/537.36",
+        "screenSize": "802x391",
+        "language": "en-US"
+      },
+      "timestamp": "2026-03-04T15:37:41.614Z",
+      "date": "4/3/2026",
+      "time": "9:07:41 pm"
+    },
+    {
+      "id": "act_1772638661519_klfsv0aou",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772638440174_pgj9xks2t",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.109.5 Chrome/142.0.7444.265 Electron/39.3.0 Safari/537.36",
+        "screenSize": "802x391",
+        "language": "en-US"
+      },
+      "timestamp": "2026-03-04T15:37:41.519Z",
+      "date": "4/3/2026",
+      "time": "9:07:41 pm"
+    },
+    {
+      "id": "act_1772638647625_xmo5oy5ss",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772638635510_8qvggbaxl",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:37:27.625Z",
+      "date": "4/3/2026",
+      "time": "9:07:27 pm"
+    },
+    {
+      "id": "act_1772638647301_3f0ptn2k2",
+      "userId": "user_1",
+      "type": "form_submit",
+      "page": "index",
+      "details": {
+        "formId": "loginForm",
+        "formAction": "https://hackathon2026-1.onrender.com/",
+        "sessionId": "session_1772638635510_8qvggbaxl",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:37:27.301Z",
+      "date": "4/3/2026",
+      "time": "9:07:27 pm"
+    },
+    {
+      "id": "act_1772638647287_xgs67mi7a",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "index",
+      "details": {
+        "timeSpent": "13s",
+        "sessionId": "session_1772638635510_8qvggbaxl",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:37:27.287Z",
+      "date": "4/3/2026",
+      "time": "9:07:27 pm"
+    },
+    {
+      "id": "act_1772638647273_ytw292np0",
+      "userId": "user_1",
+      "type": "button_click",
+      "page": "index",
+      "details": {
+        "buttonText": "🔐 Login to Quick Care",
+        "buttonId": "btn btn-primary btn-block",
+        "sessionId": "session_1772638635510_8qvggbaxl",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:37:27.273Z",
+      "date": "4/3/2026",
+      "time": "9:07:27 pm"
+    },
+    {
+      "id": "act_1772638638282_ne4fq6d2r",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "index",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772638635510_8qvggbaxl",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:37:18.282Z",
+      "date": "4/3/2026",
+      "time": "9:07:18 pm"
+    },
+    {
+      "id": "act_1772638635575_buhsmucan",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "index",
+      "details": {
+        "pageTitle": "Quick Care — Early Risk Detection for Rural Healthcare",
+        "referrer": "",
+        "url": "https://hackathon2026-1.onrender.com/",
+        "sessionId": "session_1772638635510_8qvggbaxl",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:37:15.575Z",
+      "date": "4/3/2026",
+      "time": "9:07:15 pm"
+    },
+    {
+      "id": "act_1772638586491_5vwktdoqv",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "dashboard",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:36:26.491Z",
+      "date": "4/3/2026",
+      "time": "9:06:26 pm"
+    },
+    {
+      "id": "act_1772638581323_ew88nll2f",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "dashboard",
+      "details": {
+        "pageTitle": "Dashboard — Quick Care",
+        "referrer": "",
+        "url": "http://localhost:3000/dashboard.html",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:36:21.323Z",
+      "date": "4/3/2026",
+      "time": "9:06:21 pm"
+    },
+    {
+      "id": "act_1772638481066_yxbl3rhd9",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:34:41.066Z",
+      "date": "4/3/2026",
+      "time": "9:04:41 pm"
+    },
+    {
+      "id": "act_1772638481044_pv4p47h9b",
+      "userId": "user_1",
+      "type": "form_submit",
+      "page": "index",
+      "details": {
+        "formId": "loginForm",
+        "formAction": "http://localhost:3000/",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:34:41.044Z",
+      "date": "4/3/2026",
+      "time": "9:04:41 pm"
+    },
+    {
+      "id": "act_1772638481029_h92zvnb7a",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "index",
+      "details": {
+        "timeSpent": "8s",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:34:41.029Z",
+      "date": "4/3/2026",
+      "time": "9:04:41 pm"
+    },
+    {
+      "id": "act_1772638481015_isw8f81k9",
+      "userId": "user_1",
+      "type": "button_click",
+      "page": "index",
+      "details": {
+        "buttonText": "🔐 Login to Quick Care",
+        "buttonId": "btn btn-primary btn-block",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:34:41.015Z",
+      "date": "4/3/2026",
+      "time": "9:04:41 pm"
+    },
+    {
+      "id": "act_1772638473011_vr4xhl0or",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "index",
+      "details": {
+        "pageTitle": "Quick Care — Early Risk Detection for Rural Healthcare",
+        "referrer": "direct",
+        "url": "http://localhost:3000/",
+        "sessionId": "session_1772638473000_d57dzuxfk",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:34:33.011Z",
+      "date": "4/3/2026",
+      "time": "9:04:33 pm"
+    },
+    {
+      "id": "act_1772638440246_jdxrydgex",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "index",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772638440174_pgj9xks2t",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.109.5 Chrome/142.0.7444.265 Electron/39.3.0 Safari/537.36",
+        "screenSize": "802x391",
+        "language": "en-US"
+      },
+      "timestamp": "2026-03-04T15:34:00.246Z",
+      "date": "4/3/2026",
+      "time": "9:04:00 pm"
+    },
+    {
+      "id": "act_1772638440235_r90udgpdc",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "index",
+      "details": {
+        "pageTitle": "Quick Care — Early Risk Detection for Rural Healthcare",
+        "referrer": "direct",
+        "url": "http://localhost:3000/",
+        "sessionId": "session_1772638440174_pgj9xks2t",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.109.5 Chrome/142.0.7444.265 Electron/39.3.0 Safari/537.36",
+        "screenSize": "802x391",
+        "language": "en-US"
+      },
+      "timestamp": "2026-03-04T15:34:00.235Z",
+      "date": "4/3/2026",
+      "time": "9:04:00 pm"
+    },
+    {
+      "id": "act_1772638351002_bzx0cd7rs",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "index",
+      "details": {
+        "timeSpent": "3730s",
+        "sessionId": "session_1772629983501_fdi3rkorw",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:32:31.002Z",
+      "date": "4/3/2026",
+      "time": "9:02:31 pm"
+    },
+    {
       "id": "act_1772637717460_vu5753sa5",
       "userId": "user_1",
       "type": "page_blur",
@@ -16432,307 +16732,6 @@
       "timestamp": "2026-03-04T10:21:22.420Z",
       "date": "4/3/2026",
       "time": "3:51:22 pm"
-    },
-    {
-      "id": "act_1772619680239_zfdc81g0a",
-      "userId": "user_1",
-      "type": "chat_message",
-      "page": "chat",
-      "details": {
-        "buttonText": "➤",
-        "buttonId": "sendBtn",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:20.239Z",
-      "date": "4/3/2026",
-      "time": "3:51:20 pm"
-    },
-    {
-      "id": "act_1772619678588_2zdkuqpzc",
-      "userId": "user_1",
-      "type": "button_click",
-      "page": "chat",
-      "details": {
-        "buttonText": "🫀 Chest Pain",
-        "buttonId": "symptom-chip",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:18.588Z",
-      "date": "4/3/2026",
-      "time": "3:51:18 pm"
-    },
-    {
-      "id": "act_1772619675792_1u3dnji9w",
-      "userId": "user_1",
-      "type": "page_visit",
-      "page": "chat",
-      "details": {
-        "pageTitle": "Health Chat — RuralMed AI",
-        "referrer": "health-records.html",
-        "url": "http://localhost:3000/pages/chat.html",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:15.792Z",
-      "date": "4/3/2026",
-      "time": "3:51:15 pm"
-    },
-    {
-      "id": "act_1772619675773_e66pqr8od",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "health-records",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:15.773Z",
-      "date": "4/3/2026",
-      "time": "3:51:15 pm"
-    },
-    {
-      "id": "act_1772619675749_dej31zn9t",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "health-records",
-      "details": {
-        "timeSpent": "61s",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:15.749Z",
-      "date": "4/3/2026",
-      "time": "3:51:15 pm"
-    },
-    {
-      "id": "act_1772619675747_scmcmz1wu",
-      "userId": "user_1",
-      "type": "link_click",
-      "page": "health-records",
-      "details": {
-        "linkText": "Chat",
-        "linkHref": "no-href",
-        "linkId": "",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:15.747Z",
-      "date": "4/3/2026",
-      "time": "3:51:15 pm"
-    },
-    {
-      "id": "act_1772619660687_7bwyenj5v",
-      "userId": "user_1",
-      "type": "scroll_depth",
-      "page": "health-records",
-      "details": {
-        "depth": "75%",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:21:00.687Z",
-      "date": "4/3/2026",
-      "time": "3:51:00 pm"
-    },
-    {
-      "id": "act_1772619615311_62bzqk4zr",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "health-records",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:20:15.311Z",
-      "date": "4/3/2026",
-      "time": "3:50:15 pm"
-    },
-    {
-      "id": "act_1772619615307_7g7v9yv6l",
-      "userId": "user_1",
-      "type": "page_visit",
-      "page": "health-records",
-      "details": {
-        "pageTitle": "Health Records — RuralMed AI",
-        "referrer": "dashboard.html",
-        "url": "http://localhost:3000/pages/health-records.html",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:20:15.307Z",
-      "date": "4/3/2026",
-      "time": "3:50:15 pm"
-    },
-    {
-      "id": "act_1772619615260_wk0jd7cor",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "health-records",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:20:15.260Z",
-      "date": "4/3/2026",
-      "time": "3:50:15 pm"
-    },
-    {
-      "id": "act_1772619615242_r6pjqc1du",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "health-records",
-      "details": {
-        "timeSpent": "205s",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:20:15.242Z",
-      "date": "4/3/2026",
-      "time": "3:50:15 pm"
-    },
-    {
-      "id": "act_1772619611118_umz5httgf",
-      "userId": "user_1",
-      "type": "page_focus",
-      "page": "health-records",
-      "details": {
-        "action": "returned",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:20:11.118Z",
-      "date": "4/3/2026",
-      "time": "3:50:11 pm"
-    },
-    {
-      "id": "act_1772619435222_izb6l8ner",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "health-records",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:17:15.222Z",
-      "date": "4/3/2026",
-      "time": "3:47:15 pm"
-    },
-    {
-      "id": "act_1772619410462_eovb6yvn8",
-      "userId": "user_1",
-      "type": "page_visit",
-      "page": "health-records",
-      "details": {
-        "pageTitle": "Health Records — RuralMed AI",
-        "referrer": "dashboard.html",
-        "url": "http://localhost:3000/pages/health-records.html",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:50.462Z",
-      "date": "4/3/2026",
-      "time": "3:46:50 pm"
-    },
-    {
-      "id": "act_1772619410407_1zh9eiei9",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "dashboard",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:50.407Z",
-      "date": "4/3/2026",
-      "time": "3:46:50 pm"
-    },
-    {
-      "id": "act_1772619410388_riajqsee6",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "dashboard",
-      "details": {
-        "timeSpent": "2s",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:50.388Z",
-      "date": "4/3/2026",
-      "time": "3:46:50 pm"
-    },
-    {
-      "id": "act_1772619410386_c0lzcdwv4",
-      "userId": "user_1",
-      "type": "link_click",
-      "page": "dashboard",
-      "details": {
-        "linkText": "📋\nHealth Records\nView your complete health histor",
-        "linkHref": "http://localhost:3000/pages/health-records.html",
-        "linkId": "",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:50.386Z",
-      "date": "4/3/2026",
-      "time": "3:46:50 pm"
-    },
-    {
-      "id": "act_1772619410383_kdib6bakb",
-      "userId": "user_1",
-      "type": "feature_click",
-      "page": "dashboard",
-      "details": {
-        "itemName": "Health Records",
-        "itemDetails": "",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:50.383Z",
-      "date": "4/3/2026",
-      "time": "3:46:50 pm"
     }
   ]
 }
