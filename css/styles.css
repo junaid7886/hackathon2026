@@ -1095,6 +1095,127 @@ textarea {
     margin: 0 auto;
 }
 
+/* ── USER INFO CARD ── */
+.user-info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    margin: -20px 24px 24px;
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 10;
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-info-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+}
+
+.user-email {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.user-info-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.user-stat {
+    text-align: center;
+    padding: 12px;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.user-stat:hover {
+    background: var(--teal-50);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+@media (max-width: 640px) {
+    .user-info-card {
+        margin: -10px 16px 20px;
+        padding: 16px;
+    }
+    
+    .user-info-header {
+        flex-wrap: wrap;
+    }
+    
+    .user-info-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .user-name {
+        font-size: 1.2rem;
+    }
+}
+
 
 /* ── SECTION HEADERS ── */
 

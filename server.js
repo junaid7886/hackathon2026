@@ -1,7 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(
+    import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
@@ -58,7 +63,7 @@ function writeJSON(filePath, data) {
 // Log a new activity
 app.post('/api/activities', (req, res) => {
     const { type, page, details, userId = 'user_1' } = req.body;
-    
+
     if (!type || !page) {
         return res.status(400).json({ error: 'Type and page are required' });
     }
@@ -80,7 +85,7 @@ app.post('/api/activities', (req, res) => {
     };
 
     data.activities.unshift(activity); // Add to beginning
-    
+
     // Keep only last 1000 activities
     if (data.activities.length > 1000) {
         data.activities = data.activities.slice(0, 1000);
@@ -96,7 +101,7 @@ app.post('/api/activities', (req, res) => {
 // Get all activities
 app.get('/api/activities', (req, res) => {
     const { limit = 100, type, page, userId } = req.query;
-    
+
     const data = readJSON(ACTIVITIES_FILE);
     if (!data) {
         return res.status(500).json({ error: 'Failed to read activities' });
@@ -129,7 +134,7 @@ app.get('/api/activities/stats', (req, res) => {
     }
 
     const activities = data.activities;
-    
+
     // Calculate statistics
     const stats = {
         totalActivities: activities.length,
@@ -195,12 +200,137 @@ app.delete('/api/activities', (req, res) => {
     }
 });
 
+// ==================== AUTHENTICATION ROUTES ====================
+
+// Register a new user
+app.post('/api/auth/register', (req, res) => {
+    const { name, email, password, age, gender, language } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ error: 'Name, email, and password are required' });
+    }
+
+    if (password.length < 8) {
+        return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
+
+    const data = readJSON(USERS_FILE);
+    if (!data) {
+        return res.status(500).json({ error: 'Failed to read users' });
+    }
+
+    // Check if user already exists
+    const existingUser = data.users.find(u => u.email === email);
+    if (existingUser) {
+        return res.status(409).json({ error: 'User with this email already exists' });
+    }
+
+    const user = {
+        id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name,
+        email,
+        password, // In production, this should be hashed!
+        age: age || null,
+        gender: gender || null,
+        language: language || 'en',
+        createdAt: new Date().toISOString()
+    };
+
+    data.users.push(user);
+
+    if (writeJSON(USERS_FILE, data)) {
+        // Don't send password back
+        const { password: _, ...safeUser } = user;
+        res.json({ success: true, user: safeUser });
+    } else {
+        res.status(500).json({ error: 'Failed to create user' });
+    }
+});
+
+// Login
+app.post('/api/auth/login', (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const data = readJSON(USERS_FILE);
+    if (!data) {
+        return res.status(500).json({ error: 'Failed to read users' });
+    }
+
+    const user = data.users.find(u => u.email === email && u.password === password);
+
+    if (!user) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Don't send password back
+    const { password: _, ...safeUser } = user;
+    res.json({ success: true, user: safeUser });
+});
+
+// Get user by ID
+app.get('/api/auth/user/:id', (req, res) => {
+    const { id } = req.params;
+
+    const data = readJSON(USERS_FILE);
+    if (!data) {
+        return res.status(500).json({ error: 'Failed to read users' });
+    }
+
+    const user = data.users.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Don't send password back
+    const { password: _, ...safeUser } = user;
+    res.json({ user: safeUser });
+});
+
+// Update user profile
+app.put('/api/auth/user/:id', (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const data = readJSON(USERS_FILE);
+    if (!data) {
+        return res.status(500).json({ error: 'Failed to read users' });
+    }
+
+    const userIndex = data.users.findIndex(u => u.id === id);
+
+    if (userIndex === -1) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Update allowed fields only
+    const allowedFields = ['name', 'age', 'gender', 'language', 'phone', 'weight', 'bloodType'];
+    allowedFields.forEach(field => {
+        if (updates[field] !== undefined) {
+            data.users[userIndex][field] = updates[field];
+        }
+    });
+
+    data.users[userIndex].updatedAt = new Date().toISOString();
+
+    if (writeJSON(USERS_FILE, data)) {
+        const { password: _, ...safeUser } = data.users[userIndex];
+        res.json({ success: true, user: safeUser });
+    } else {
+        res.status(500).json({ error: 'Failed to update user' });
+    }
+});
+
 // ==================== HEALTH RECORDS ROUTES ====================
 
 // Add a health record
 app.post('/api/health-records', (req, res) => {
     const { type, value, unit, notes, userId = 'user_1' } = req.body;
-    
+
     if (!type || !value) {
         return res.status(400).json({ error: 'Type and value are required' });
     }
@@ -234,7 +364,7 @@ app.post('/api/health-records', (req, res) => {
 // Get all health records
 app.get('/api/health-records', (req, res) => {
     const { limit = 50, type, userId } = req.query;
-    
+
     const data = readJSON(HEALTH_RECORDS_FILE);
     if (!data) {
         return res.status(500).json({ error: 'Failed to read health records' });
@@ -302,6 +432,3 @@ app.listen(PORT, () => {
 ╚═══════════════════════════════════════════════════════════╝
     `);
 });
-
-
-

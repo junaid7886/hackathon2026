@@ -1,8 +1,33 @@
 {
-  "rewrites": [
-    { "source": "/api/activities", "destination": "/api/activities.js" },
-    { "source": "/api/health-records", "destination": "/api/health-records.js" },
-    { "source": "/api/chat", "destination": "/api/chat.js" },
-    { "source": "/api/stats", "destination": "/api/stats.js" }
-  ]
+    "version": 2,
+    "buildCommand": "npm run build || true",
+    "env": {
+        "NODE_ENV": "production"
+    },
+    "routes": [
+        {
+            "src": "/api/auth.*",
+            "dest": "/api/auth.js"
+        },
+        {
+            "src": "/api/activities.*",
+            "dest": "/api/activities.js"
+        },
+        {
+            "src": "/api/health-records.*",
+            "dest": "/api/health-records.js"
+        },
+        {
+            "src": "/api/chat.*",
+            "dest": "/api/chat.js"
+        },
+        {
+            "src": "/api/stats.*",
+            "dest": "/api/stats.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/$1"
+        }
+    ]
 }

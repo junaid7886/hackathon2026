@@ -47,6 +47,18 @@ const ML_CHATBOT = {
     enabled: true
 };
 
+// ═══════════════════════════════════════════
+// AUTH API CONFIGURATION
+// ═══════════════════════════════════════════
+const AUTH_API = {
+    baseUrl: window.location.hostname === 'localhost' ? 'http://localhost:3000' : '',
+    endpoints: {
+        login: '/api/auth/login',
+        register: '/api/auth/register',
+        user: '/api/auth/user'
+    }
+};
+
 // ML Chatbot API Functions
 async function mlChatbotPredict(message) {
     try {
@@ -249,9 +261,14 @@ function initLanguageSelector() {
     langBtns.forEach(btn => {
         if (btn.dataset.lang === APP.lang) {
             btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
+
+    // Apply saved language on page load
+    updateLanguageUI();
 }
 
 function setLanguage(lang) {
@@ -272,10 +289,19 @@ function updateLanguageUI() {
     // Update any translatable elements
     const translations = LANG_STRINGS[APP.lang] || LANG_STRINGS.en;
 
+    // Update text content
     document.querySelectorAll('[data-translate]').forEach(el => {
         const key = el.dataset.translate;
         if (translations[key]) {
             el.textContent = translations[key];
+        }
+    });
+
+    // Update placeholders
+    document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+        const key = el.dataset.translatePlaceholder;
+        if (translations[key]) {
+            el.placeholder = translations[key];
         }
     });
 }
@@ -314,7 +340,7 @@ function switchAuthTab(tab) {
     }
 }
 
-function doLogin() {
+async function doLogin() {
     const email = document.getElementById('loginEmail').value;
     const pass = document.getElementById('loginPass').value;
 
@@ -323,22 +349,74 @@ function doLogin() {
         return;
     }
 
-    // Simulate login
-    APP.user = { email, name: APP.profile.name };
-    localStorage.setItem('ruralmed_user', JSON.stringify(APP.user));
+    // Show loading state
+    const loginBtn = document.querySelector('#loginForm button[type="submit"]');
+    const originalText = loginBtn.innerHTML;
+    loginBtn.innerHTML = '⏳ Logging in...';
+    loginBtn.disabled = true;
 
-    showToast(`✅ Welcome back, ${APP.profile.name}!`);
+    try {
+        const response = await fetch(`${AUTH_API.baseUrl}${AUTH_API.endpoints.login}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password: pass })
+        });
 
-    setTimeout(() => {
-        window.location.href = './pages/dashboard.html';
-    }, 1000);
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            APP.user = data.user;
+            APP.profile.name = data.user.name;
+            if (data.user.age) APP.profile.age = data.user.age;
+            if (data.user.gender) APP.profile.gender = data.user.gender;
+
+            localStorage.setItem('ruralmed_user', JSON.stringify(APP.user));
+            localStorage.setItem('ruralmed_profile', JSON.stringify(APP.profile));
+
+            showToast(`✅ Welcome back, ${data.user.name}!`);
+
+            setTimeout(() => {
+                window.location.href = './pages/dashboard.html';
+            }, 1000);
+        } else {
+            showToast(`❌ ${data.error || 'Login failed'}`);
+            loginBtn.innerHTML = originalText;
+            loginBtn.disabled = false;
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        // Fallback to demo mode when server is not available
+        APP.user = {
+            id: 'demo_user',
+            email: email,
+            name: email.split('@')[0] || 'Demo User',
+            createdAt: new Date().toISOString()
+        };
+        APP.profile.name = APP.user.name;
+
+        localStorage.setItem('ruralmed_user', JSON.stringify(APP.user));
+        localStorage.setItem('ruralmed_profile', JSON.stringify(APP.profile));
+
+        showToast(`✅ Welcome, ${APP.user.name}! (Demo Mode)`);
+
+        setTimeout(() => {
+            window.location.href = './pages/dashboard.html';
+        }, 1000);
+    }
 }
 
-function doRegister() {
+async function doRegister() {
+    console.log('Register function called');
     const name = document.getElementById('regName').value;
     const age = document.getElementById('regAge').value;
+    const gender = document.getElementById('regGender').value;
     const email = document.getElementById('regEmail').value;
     const pass = document.getElementById('regPass').value;
+    const lang = document.getElementById('regLang')?.value || 'en';
+
+    console.log('Form data:', { name, age, gender, email, lang });
 
     if (!name || !age || !email || !pass) {
         showToast('⚠️ Please fill all fields');
@@ -350,24 +428,90 @@ function doRegister() {
         return;
     }
 
-    // Save user data
-    APP.user = { name, age, email };
-    APP.profile.name = name;
-    APP.profile.age = parseInt(age);
+    // Show loading state
+    const registerBtn = document.querySelector('#registerForm button[type="submit"]');
+    const originalText = registerBtn.innerHTML;
+    registerBtn.innerHTML = '⏳ Creating account...';
+    registerBtn.disabled = true;
 
-    localStorage.setItem('ruralmed_user', JSON.stringify(APP.user));
-    localStorage.setItem('ruralmed_profile', JSON.stringify(APP.profile));
+    try {
+        const response = await fetch(`${AUTH_API.baseUrl}${AUTH_API.endpoints.register}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password: pass,
+                age: parseInt(age),
+                gender,
+                language: lang
+            })
+        });
 
-    showToast(`✅ Account created! Welcome, ${name}`);
+        const data = await response.json();
 
-    setTimeout(() => {
-        window.location.href = './pages/dashboard.html';
-    }, 1000);
+        if (response.ok && data.success) {
+            APP.user = data.user;
+            APP.profile.name = data.user.name;
+            APP.profile.age = parseInt(age);
+            APP.profile.gender = gender;
+            APP.profile.lang = lang;
+
+            localStorage.setItem('ruralmed_user', JSON.stringify(APP.user));
+            localStorage.setItem('ruralmed_profile', JSON.stringify(APP.profile));
+
+            showToast(`✅ Account created! Welcome, ${name}`);
+
+            setTimeout(() => {
+                window.location.href = './pages/dashboard.html';
+            }, 1000);
+        } else {
+            showToast(`❌ ${data.error || 'Registration failed'}`);
+            registerBtn.innerHTML = originalText;
+            registerBtn.disabled = false;
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        // Fallback to demo mode when server is not available
+        APP.user = {
+            id: 'demo_' + Date.now(),
+            email: email,
+            name: name,
+            age: parseInt(age),
+            gender: gender,
+            createdAt: new Date().toISOString()
+        };
+        APP.profile.name = name;
+        APP.profile.age = parseInt(age);
+        APP.profile.gender = gender;
+        APP.profile.lang = lang;
+
+        localStorage.setItem('ruralmed_user', JSON.stringify(APP.user));
+        localStorage.setItem('ruralmed_profile', JSON.stringify(APP.profile));
+
+        showToast(`✅ Account created! Welcome, ${name} (Demo Mode)`);
+
+        setTimeout(() => {
+            window.location.href = './pages/dashboard.html';
+        }, 1000);
+    }
 }
 
 function logout() {
+    console.log('Logout function called');
     localStorage.removeItem('ruralmed_user');
-    window.location.href = '../index.html';
+    localStorage.removeItem('ruralmed_profile');
+    APP.user = null;
+
+    // Determine correct path based on current location
+    const path = window.location.pathname;
+    if (path.includes('/pages/')) {
+        window.location.href = '../index.html';
+    } else {
+        window.location.href = 'index.html';
+    }
 }
 
 // ═══════════════════════════════════════════
@@ -377,12 +521,51 @@ function initDashboard() {
     checkAuth();
     updateDashboardGreeting();
     updateRiskBanner();
+    updateUserInfoCard();
 }
 
 function checkAuth() {
     if (!APP.user) {
         // Redirect to login if not authenticated
         // window.location.href = '../index.html';
+    }
+}
+
+function updateUserInfoCard() {
+    const userCard = document.getElementById('userInfoCard');
+    if (!userCard) return;
+
+    if (APP.user) {
+        userCard.style.display = 'block';
+
+        // Update user name
+        const nameEl = document.getElementById('userDisplayName');
+        if (nameEl) nameEl.textContent = APP.user.name || APP.profile.name || 'User';
+
+        // Update email
+        const emailEl = document.getElementById('userDisplayEmail');
+        if (emailEl) emailEl.textContent = APP.user.email || 'No email provided';
+
+        // Update age
+        const ageEl = document.getElementById('userAge');
+        if (ageEl) ageEl.textContent = APP.user.age || APP.profile.age || '--';
+
+        // Update gender
+        const genderEl = document.getElementById('userGender');
+        if (genderEl) genderEl.textContent = APP.user.gender || APP.profile.gender || '--';
+
+        // Update blood group
+        const bloodEl = document.getElementById('userBlood');
+        if (bloodEl) bloodEl.textContent = APP.user.bloodType || APP.profile.blood || '--';
+
+        // Update member since
+        const memberEl = document.getElementById('userMemberSince');
+        if (memberEl && APP.user.createdAt) {
+            const date = new Date(APP.user.createdAt);
+            memberEl.textContent = date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+        }
+    } else {
+        userCard.style.display = 'none';
     }
 }
 
