@@ -1,6 +1,139 @@
 {
   "activities": [
     {
+      "id": "act_1772637717460_vu5753sa5",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772637699047_qo7e5qksq",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:21:57.460Z",
+      "date": "4/3/2026",
+      "time": "8:51:57 pm"
+    },
+    {
+      "id": "act_1772637717111_3551gfpzl",
+      "userId": "user_1",
+      "type": "form_submit",
+      "page": "index",
+      "details": {
+        "formId": "loginForm",
+        "formAction": "https://hackathon2026-1.onrender.com/",
+        "sessionId": "session_1772637699047_qo7e5qksq",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:21:57.111Z",
+      "date": "4/3/2026",
+      "time": "8:51:57 pm"
+    },
+    {
+      "id": "act_1772637717099_0zq63nk8t",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "index",
+      "details": {
+        "timeSpent": "19s",
+        "sessionId": "session_1772637699047_qo7e5qksq",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:21:57.099Z",
+      "date": "4/3/2026",
+      "time": "8:51:57 pm"
+    },
+    {
+      "id": "act_1772637717086_g7yi1e7g9",
+      "userId": "user_1",
+      "type": "button_click",
+      "page": "index",
+      "details": {
+        "buttonText": "🔐 Login to Quick Care",
+        "buttonId": "btn btn-primary btn-block",
+        "sessionId": "session_1772637699047_qo7e5qksq",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:21:57.086Z",
+      "date": "4/3/2026",
+      "time": "8:51:57 pm"
+    },
+    {
+      "id": "act_1772637711744_2a8b2j4o2",
+      "userId": "user_1",
+      "type": "button_click",
+      "page": "index",
+      "details": {
+        "buttonText": "🔐 Login to Quick Care",
+        "buttonId": "btn btn-primary btn-block",
+        "sessionId": "session_1772637699047_qo7e5qksq",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:21:51.744Z",
+      "date": "4/3/2026",
+      "time": "8:51:51 pm"
+    },
+    {
+      "id": "act_1772637702500_4xtkzhx1r",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "index",
+      "details": {
+        "pageTitle": "Quick Care — Early Risk Detection for Rural Healthcare",
+        "referrer": "direct",
+        "url": "https://hackathon2026-1.onrender.com/",
+        "sessionId": "session_1772637699047_qo7e5qksq",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T15:21:42.500Z",
+      "date": "4/3/2026",
+      "time": "8:51:42 pm"
+    },
+    {
+      "id": "act_1772635604944_en86aah4k",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772629983501_fdi3rkorw",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T14:46:44.944Z",
+      "date": "4/3/2026",
+      "time": "8:16:44 pm"
+    },
+    {
+      "id": "act_1772635597125_02896vvoh",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "index",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772629983501_fdi3rkorw",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T14:46:37.125Z",
+      "date": "4/3/2026",
+      "time": "8:16:37 pm"
+    },
+    {
       "id": "act_1772634642275_gkpd22zr9",
       "userId": "user_1",
       "type": "page_blur",
@@ -16600,141 +16733,6 @@
       "timestamp": "2026-03-04T10:16:50.383Z",
       "date": "4/3/2026",
       "time": "3:46:50 pm"
-    },
-    {
-      "id": "act_1772619408499_5snthc3fp",
-      "userId": "user_1",
-      "type": "page_visit",
-      "page": "dashboard",
-      "details": {
-        "pageTitle": "Dashboard — RuralMed AI",
-        "referrer": "doctors.html",
-        "url": "http://localhost:3000/pages/dashboard.html",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:48.499Z",
-      "date": "4/3/2026",
-      "time": "3:46:48 pm"
-    },
-    {
-      "id": "act_1772619408477_byscshhl0",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "doctors",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:48.477Z",
-      "date": "4/3/2026",
-      "time": "3:46:48 pm"
-    },
-    {
-      "id": "act_1772619408455_517xfrenv",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "doctors",
-      "details": {
-        "timeSpent": "7s",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:48.455Z",
-      "date": "4/3/2026",
-      "time": "3:46:48 pm"
-    },
-    {
-      "id": "act_1772619408453_1tujbwl26",
-      "userId": "user_1",
-      "type": "link_click",
-      "page": "doctors",
-      "details": {
-        "linkText": "Home",
-        "linkHref": "no-href",
-        "linkId": "",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:48.453Z",
-      "date": "4/3/2026",
-      "time": "3:46:48 pm"
-    },
-    {
-      "id": "act_1772619404050_lmx5ldh1s",
-      "userId": "user_1",
-      "type": "doctor_view",
-      "page": "doctors",
-      "details": {
-        "itemName": "Dr. Suresh Babu Rao",
-        "itemDetails": "",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:44.050Z",
-      "date": "4/3/2026",
-      "time": "3:46:44 pm"
-    },
-    {
-      "id": "act_1772619401737_xulcbu6yq",
-      "userId": "user_1",
-      "type": "page_visit",
-      "page": "doctors",
-      "details": {
-        "pageTitle": "Find Doctors — RuralMed AI",
-        "referrer": "chat.html",
-        "url": "http://localhost:3000/pages/doctors.html?spec=General%20Physician",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:41.737Z",
-      "date": "4/3/2026",
-      "time": "3:46:41 pm"
-    },
-    {
-      "id": "act_1772619401719_gd22u7tcj",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "chat",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:41.719Z",
-      "date": "4/3/2026",
-      "time": "3:46:41 pm"
-    },
-    {
-      "id": "act_1772619401697_wdov60bc2",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "chat",
-      "details": {
-        "timeSpent": "6s",
-        "sessionId": "session_1772619375673_6sqny13kx",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T10:16:41.697Z",
-      "date": "4/3/2026",
-      "time": "3:46:41 pm"
     }
   ]
 }
