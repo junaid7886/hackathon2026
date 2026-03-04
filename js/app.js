@@ -512,17 +512,17 @@ async function sendMessage() {
         // Try ML Chatbot API first
         if (ML_CHATBOT.enabled) {
             const mlResponse = await mlChatbotPredict(translated);
-            
+
             if (mlResponse && mlResponse.type === 'diagnosis' && mlResponse.prediction) {
                 // Convert ML response to expected format
                 const pred = mlResponse.prediction;
                 const info = pred.info || {};
-                
+
                 // Determine risk level based on severity
                 let riskLevel = 'low';
                 let riskScore = 30;
                 let recommendation = 'Self-care';
-                
+
                 if (info.severity === 'emergency') {
                     riskLevel = 'critical';
                     riskScore = 95;
@@ -540,12 +540,12 @@ async function sendMessage() {
                     riskScore = 50;
                     recommendation = 'Teleconsultation';
                 }
-                
+
                 // Adjust for patient profile
                 if (profile.diabetes || profile.bp || profile.heart) {
                     riskScore = Math.min(100, riskScore + 10);
                 }
-                
+
                 // Get suggested specialist based on disease
                 let suggestedSpec = 'General Physician';
                 const disease = pred.disease.toLowerCase();
@@ -557,7 +557,7 @@ async function sendMessage() {
                 else if (disease.includes('arthritis')) suggestedSpec = 'Rheumatologist';
                 else if (disease.includes('migraine')) suggestedSpec = 'Neurologist';
                 else if (disease.includes('typhoid') || disease.includes('malaria') || disease.includes('dengue')) suggestedSpec = 'Infectious Disease Specialist';
-                
+
                 // Build response text
                 let responseText = `Based on the ML analysis, you may have **${pred.disease}**.\n\n`;
                 responseText += `${info.description || ''}\n\n`;
@@ -570,13 +570,13 @@ async function sendMessage() {
                 if (info.see_doctor) {
                     responseText += `\n**When to see a doctor:** ${info.see_doctor}`;
                 }
-                
+
                 // Build possible conditions from top predictions
                 const possibleConditions = (pred.top_predictions || []).map(p => ({
                     name: p.disease,
                     probability: Math.round(p.probability * 100)
                 }));
-                
+
                 result = {
                     responseText: responseText.replace(/\*\*/g, ''),
                     riskScore: riskScore,
@@ -609,7 +609,7 @@ async function sendMessage() {
                 };
             }
         }
-        
+
         // Fall back to local response if ML API fails
         if (!result) {
             // Get Infermedica analysis in parallel (if API keys are configured)
@@ -1414,4 +1414,3 @@ window.analyzeSkin = analyzeSkin;
 window.showEmergencyOverlay = showEmergencyOverlay;
 window.hideEmergencyOverlay = hideEmergencyOverlay;
 window.showToast = showToast;
-

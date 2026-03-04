@@ -29,8 +29,8 @@ export default function handler(req, res) {
             time: new Date().toLocaleTimeString('en-IN')
         };
 
-        return res.json({ 
-            success: true, 
+        return res.json({
+            success: true,
             record,
             note: 'Record created (use client-side localStorage for persistence)'
         });
@@ -38,7 +38,7 @@ export default function handler(req, res) {
 
     if (req.method === 'GET') {
         // Return sample data - actual data should come from client localStorage or database
-        return res.json({ 
+        return res.json({
             records: [],
             total: 0,
             note: 'Use client-side localStorage for health records'
@@ -47,5 +47,3 @@ export default function handler(req, res) {
 
     return res.status(405).json({ error: 'Method not allowed' });
 }
-
-

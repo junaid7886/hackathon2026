@@ -1,6 +1,234 @@
 {
   "activities": [
     {
+      "id": "act_1772626011343_6jn81byat",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "health-records",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:06:51.343Z",
+      "date": "4/3/2026",
+      "time": "5:36:51 pm"
+    },
+    {
+      "id": "act_1772626003503_jx9p8h8a1",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "health-records",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:06:43.503Z",
+      "date": "4/3/2026",
+      "time": "5:36:43 pm"
+    },
+    {
+      "id": "act_1772625971531_bq1yum5iq",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "health-records",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:06:11.531Z",
+      "date": "4/3/2026",
+      "time": "5:36:11 pm"
+    },
+    {
+      "id": "act_1772625968827_7tixr1cxc",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "health-records",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:06:08.827Z",
+      "date": "4/3/2026",
+      "time": "5:36:08 pm"
+    },
+    {
+      "id": "act_1772625875320_zz19ru3gc",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "health-records",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:04:35.320Z",
+      "date": "4/3/2026",
+      "time": "5:34:35 pm"
+    },
+    {
+      "id": "act_1772625874214_wh9hbdikh",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "health-records",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:04:34.214Z",
+      "date": "4/3/2026",
+      "time": "5:34:34 pm"
+    },
+    {
+      "id": "act_1772625787341_y9ccflaxn",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "index",
+      "details": {
+        "timeSpent": "51s",
+        "sessionId": "session_1772625736134_oh9lwz0b1",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:03:07.341Z",
+      "date": "4/3/2026",
+      "time": "5:33:07 pm"
+    },
+    {
+      "id": "act_1772625742560_t4ujpq7r9",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772625736134_oh9lwz0b1",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:02:22.560Z",
+      "date": "4/3/2026",
+      "time": "5:32:22 pm"
+    },
+    {
+      "id": "act_1772625736209_5dipj7ffy",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "health-records",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772621110622_gxulq7570",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:02:16.209Z",
+      "date": "4/3/2026",
+      "time": "5:32:16 pm"
+    },
+    {
+      "id": "act_1772625736189_0fw8djv8k",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "health-records",
+      "details": {
+        "timeSpent": "10s",
+        "sessionId": "session_1772621110622_gxulq7570",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:02:16.189Z",
+      "date": "4/3/2026",
+      "time": "5:32:16 pm"
+    },
+    {
+      "id": "act_1772625736158_enqegxyip",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "health-records",
+      "details": {
+        "pageTitle": "Health Records — RuralMed AI",
+        "referrer": "direct",
+        "url": "file:///C:/Users/sk%20junaid/Documents/projects/hackathon/prototype2/pages/health-records.html",
+        "sessionId": "session_1772621110622_gxulq7570",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:02:16.158Z",
+      "date": "4/3/2026",
+      "time": "5:32:16 pm"
+    },
+    {
+      "id": "act_1772625736150_va0ephorl",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "index",
+      "details": {
+        "pageTitle": "Quick Care — Early Risk Detection for Rural Healthcare",
+        "referrer": "direct",
+        "url": "file:///C:/Users/sk%20junaid/Documents/projects/hackathon/prototype2/index.html",
+        "sessionId": "session_1772625736134_oh9lwz0b1",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T12:02:16.150Z",
+      "date": "4/3/2026",
+      "time": "5:32:16 pm"
+    },
+    {
+      "id": "act_1772625583177_vmonjilr4",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "health-records",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T11:59:43.177Z",
+      "date": "4/3/2026",
+      "time": "5:29:43 pm"
+    },
+    {
+      "id": "act_1772625579732_trv0qntob",
+      "userId": "user_1",
+      "type": "page_focus",
+      "page": "health-records",
+      "details": {
+        "action": "returned",
+        "sessionId": "session_1772623676162_2rdisvmjr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-04T11:59:39.732Z",
+      "date": "4/3/2026",
+      "time": "5:29:39 pm"
+    },
+    {
       "id": "act_1772625533295_anyml5i12",
       "userId": "user_1",
       "type": "page_blur",

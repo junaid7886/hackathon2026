@@ -34,8 +34,8 @@ export default function handler(req, res) {
 
         // Note: This won't persist across serverless invocations
         // Use client-side localStorage or a database for persistence
-        return res.json({ 
-            success: true, 
+        return res.json({
+            success: true,
             activity,
             note: 'Activity logged (client-side storage recommended for persistence)'
         });
@@ -43,7 +43,7 @@ export default function handler(req, res) {
 
     if (req.method === 'GET') {
         // Return empty array - use client-side localStorage
-        return res.json({ 
+        return res.json({
             activities: [],
             total: 0,
             note: 'Use client-side localStorage for activity tracking'
@@ -56,5 +56,3 @@ export default function handler(req, res) {
 
     return res.status(405).json({ error: 'Method not allowed' });
 }
-
-

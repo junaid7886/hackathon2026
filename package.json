@@ -1,21 +1,21 @@
 {
-  "name": "quick-care",
-  "version": "1.0.0",
-  "description": "Backend server for Quick Care Healthcare Platform",
-  "main": "server.js",
-  "type": "module",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "vercel-build": "echo 'Build complete'"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5"
-  },
-  "engines": {
-    "node": ">=18.x"
-  },
-  "author": "Quick Care Team",
-  "license": "MIT"
+    "name": "quick-care",
+    "version": "1.0.0",
+    "description": "Backend server for Quick Care Healthcare Platform",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js",
+        "vercel-build": "echo 'Build complete'"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    },
+    "engines": {
+        "node": ">=18.x"
+    },
+    "author": "Quick Care Team",
+    "license": "MIT"
 }
