@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Skin Analysis — RuralMed AI</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .skin-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .skin-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .skin-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .skin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            margin-bottom: 80px;
+        }
+        
+        .upload-zone {
+            border: 3px dashed var(--border-light);
+            border-radius: var(--radius-xl);
+            padding: 50px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+            margin-bottom: 30px;
+        }
+        
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--accent-teal);
+            background: rgba(0, 191, 165, 0.05);
+        }
+        
+        .upload-zone .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .upload-zone h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .upload-zone p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-teal);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .preview-section {
+            display: none;
+            margin-bottom: 30px;
+        }
+        
+        .preview-section.active {
+            display: block;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .preview-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .demo-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .demo-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        
+        .demo-conditions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        
+        .demo-btn {
+            padding: 12px 16px;
+            border-radius: var(--radius-lg);
+            background: var(--bg-main);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        
+        .demo-btn:hover {
+            background: var(--accent-teal);
+            color: white;
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+        }
+        
+        .results-section {
+            display: none;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .results-section.active {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .results-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .results-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .results-title {
+            flex: 1;
+        }
+        
+        .results-title h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .results-title .confidence {
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .results-body h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            margin-top: 20px;
+        }
+        
+        .results-body p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .results-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .results-body li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .results-body li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-teal);
+            font-weight: bold;
+        }
+        
+        .severity-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .severity-mild {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+        }
+        
+        .severity-moderate {
+            background: rgba(241, 196, 15, 0.15);
+            color: #f39c12;
+        }
+        
+        .severity-severe {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+        
+        .doctor-recommend {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 191, 165, 0.1), rgba(0, 191, 165, 0.05));
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--accent-teal);
+        }
+        
+        .doctor-recommend h4 {
+            margin-top: 0;
+            color: var(--accent-teal);
+        }
+        
+        .disclaimer {
+            background: rgba(241, 196, 15, 0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px 20px;
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            margin: 30px 0;
+        }
+        
+        .disclaimer p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .disclaimer strong {
+            color: #f39c12;
+        }
+        
+        .analyzing {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .analyzing .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border-light);
+            border-top-color: var(--accent-teal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .skin-header {
+                padding: 30px 15px;
+            }
+            .skin-header h1 {
+                font-size: 1.8rem;
+            }
+            .skin-container {
+                padding: 20px 15px;
+            }
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            .demo-conditions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="dashboard.html" class="navbar-logo">
+                <div class="logo-icon">🏥</div>
+                <span class="logo-text">Rural<span>Med</span> AI</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span>Home</span>
+                </a>
+                <a href="chat.html" class="nav-link">
+                    <span class="nav-icon">💬</span>
+                    <span>Chat</span>
+                </a>
+                <a href="doctors.html" class="nav-link">
+                    <span class="nav-icon">👨‍⚕️</span>
+                    <span>Doctors</span>
+                </a>
+                <a href="hospitals.html" class="nav-link">
+                    <span class="nav-icon">🏥</span>
+                    <span>Hospitals</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </div>
+
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="hi">हि</button>
+                <button class="lang-btn" data-lang="te">తె</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Skin Header -->
+    <div class="skin-header">
+        <h1>📷 Skin Analysis</h1>
+        <p>AI-powered skin condition detection and guidance</p>
+    </div>
+
+    <!-- Skin Container -->
+    <div class="skin-container">
+        <!-- Upload Zone -->
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('skinImageInput').click()">
+            <div class="icon">📸</div>
+            <h3>Upload Skin Photo</h3>
+            <p>Take or upload a clear photo of the affected skin area</p>
+            <div class="upload-btn">
+                <span>📤</span> Choose Photo
+            </div>
+            <input type="file" id="skinImageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-section" id="previewSection">
+            <img id="previewImage" class="preview-image" src="" alt="Preview">
+            <div class="preview-actions">
+                <button class="btn btn-primary" onclick="analyzeImage()">🔬 Analyze Image</button>
+                <button class="btn btn-secondary" onclick="clearImage()">✕ Clear</button>
+            </div>
+        </div>
+
+        <!-- Demo Section -->
+        <div class="demo-section">
+            <h3>🧪 Try Demo Conditions</h3>
+            <div class="demo-conditions">
+                <button class="demo-btn" onclick="showDemoResult('ringworm')">🔴 Ringworm</button>
+                <button class="demo-btn" onclick="showDemoResult('eczema')">🟠 Eczema</button>
+                <button class="demo-btn" onclick="showDemoResult('scabies')">🟡 Scabies</button>
+                <button class="demo-btn" onclick="showDemoResult('fungal')">🟢 Fungal Infection</button>
+                <button class="demo-btn" onclick="showDemoResult('acne')">🔵 Acne</button>
+                <button class="demo-btn" onclick="showDemoResult('psoriasis')">🟣 Psoriasis</button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <div class="results-icon">🔬</div>
+                <div class="results-title">
+                    <h3 id="resultCondition">Condition Name</h3>
+                    <div class="confidence" id="resultConfidence">Confidence: 85%</div>
+                </div>
+            </div>
+            <div class="results-body" id="resultsBody">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <p><strong>⚠️ Disclaimer:</strong> This AI analysis is for informational purposes only and should NOT replace professional medical diagnosis. Always consult a qualified healthcare provider for proper diagnosis and treatment.</p>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="dashboard.html" class="mobile-nav-btn">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="chat.html" class="mobile-nav-btn">
+                <span class="nav-icon">💬</span>
+                <span>Chat</span>
+            </a>
+            <a href="skin-analysis.html" class="mobile-nav-btn active">
+                <span class="nav-icon">📷</span>
+                <span>Skin</span>
+            </a>
+            <a href="hospitals.html" class="mobile-nav-btn">
+                <span class="nav-icon">🏥</span>
+                <span>Hospitals</span>
+            </a>
+            <a href="profile.html" class="mobile-nav-btn">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        let uploadedImage = null;
+
+        // Drag and drop handling
+        const uploadZone = document.getElementById('uploadZone');
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                processImage(file);
+            }
+        });
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processImage(file);
+            }
+        }
+
+        function processImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage = e.target.result;
+                document.getElementById('previewImage').src = uploadedImage;
+                document.getElementById('previewSection').classList.add('active');
+                document.getElementById('uploadZone').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearImage() {
+            uploadedImage = null;
+            document.getElementById('previewSection').classList.remove('active');
+            document.getElementById('uploadZone').style.display = 'block';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('skinImageInput').value = '';
+        }
+
+        function analyzeImage() {
+            if (!uploadedImage) {
+                showToast('Please upload an image first');
+                return;
+            }
+
+            // Show analyzing state
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.add('active');
+            resultsSection.innerHTML = `
+                <div class="analyzing">
+                    <div class="spinner"></div>
+                    <p>Analyzing skin condition...</p>
+                </div>
+            `;
+
+            // Simulate analysis delay
+            setTimeout(() => {
+                // Random demo result for uploaded images
+                const conditions = ['ringworm', 'eczema', 'fungal', 'acne'];
+                const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+                showDemoResult(randomCondition);
+            }, 2000);
+        }
+
+        function showDemoResult(conditionKey) {
+            const condition = SKIN_CONDITIONS[conditionKey];
+            if (!condition) return;
+
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.add('active');
+
+            const severityClass = condition.severity === 'mild' ? 'severity-mild' :
+                condition.severity === 'moderate' ? 'severity-moderate' :
+                'severity-severe';
+
+            resultsSection.innerHTML = `
+                <div class="results-header">
+                    <div class="results-icon">🔬</div>
+                    <div class="results-title">
+                        <h3>${condition.name}</h3>
+                        <div class="confidence">Confidence: ${Math.floor(Math.random() * 15 + 80)}%</div>
+                    </div>
+                </div>
+                <div class="results-body">
+                    <span class="severity-badge ${severityClass}">
+                        Severity: ${condition.severity.toUpperCase()}
+                    </span>
+                    
+                    <h4>📋 Description</h4>
+                    <p>${condition.desc}</p>
+                    
+                    <h4>✨ Recommended Care</h4>
+                    <ul>
+                        ${condition.care.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                    
+                    <div class="doctor-recommend">
+                        <h4>👨‍⚕️ Recommended Specialist</h4>
+                        <p>We recommend consulting a <strong>Dermatologist</strong> for proper diagnosis and treatment.</p>
+                        <a href="doctors.html" class="btn btn-primary mt-2">Find Dermatologists</a>
+                    </div>
+                </div>
+            `;
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+
+</html>

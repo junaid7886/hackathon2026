@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Find Hospitals — RuralMed AI</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .hospitals-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            margin-top: 70px;
+        }
+        
+        .hospitals-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .hospitals-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .search-filters {
+            background: var(--bg-card);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 70px;
+            z-index: 90;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hospitals-grid {
+            margin-top: 0;
+        }
+        
+        .search-row {
+            display: flex;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .search-row .form-select {
+            min-width: 180px;
+            flex: 0 0 auto;
+            color: #333;
+            background-color: #fff;
+            text-align: center;
+            text-align-last: center;
+        }
+        
+        .hospitals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-bottom: 80px;
+        }
+        
+        .hospital-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .hospital-card.emergency::before {
+            content: '🚨 24/7 EMERGENCY';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 0 var(--radius-xl) 0 var(--radius-lg);
+        }
+        
+        .hospital-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .hospital-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        
+        .hospital-info h3 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        
+        .hospital-location {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .hospital-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .hospital-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            background: var(--bg-main);
+            color: var(--text-secondary);
+        }
+        
+        .hospital-tag.type {
+            background: rgba(52, 152, 219, 0.15);
+            color: #3498db;
+        }
+        
+        .hospital-tag.beds {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+        }
+        
+        .hospital-tag.distance {
+            background: rgba(155, 89, 182, 0.15);
+            color: #9b59b6;
+        }
+        
+        .hospital-services {
+            padding: 12px 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 16px;
+        }
+        
+        .services-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .service-chip {
+            padding: 4px 10px;
+            background: var(--bg-main);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .hospital-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .hospital-actions .btn {
+            flex: 1;
+            font-size: 0.9rem;
+            padding: 12px 14px;
+        }
+        
+        .btn-directions {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-directions:hover {
+            background: linear-gradient(135deg, #2980b9, #2471a3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-emergency {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .btn-emergency:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        
+        .no-results .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .emergency-banner {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .emergency-banner span {
+            font-weight: 600;
+        }
+        
+        .emergency-banner a {
+            background: white;
+            color: #e74c3c;
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-banner a:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        @media (max-width: 768px) {
+            .hospitals-header {
+                padding: 30px 15px;
+            }
+            .hospitals-header h1 {
+                font-size: 1.8rem;
+            }
+            .search-filters {
+                top: 60px;
+            }
+            .hospitals-grid {
+                grid-template-columns: 1fr;
+                padding: 20px 15px;
+            }
+            .hospital-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="dashboard.html" class="navbar-logo">
+                <div class="logo-icon">🏥</div>
+                <span class="logo-text">Rural<span>Med</span> AI</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span>Home</span>
+                </a>
+                <a href="chat.html" class="nav-link">
+                    <span class="nav-icon">💬</span>
+                    <span>Chat</span>
+                </a>
+                <a href="doctors.html" class="nav-link">
+                    <span class="nav-icon">👨‍⚕️</span>
+                    <span>Doctors</span>
+                </a>
+                <a href="hospitals.html" class="nav-link active">
+                    <span class="nav-icon">🏥</span>
+                    <span>Hospitals</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </div>
+
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="hi">हि</button>
+                <button class="lang-btn" data-lang="te">తె</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Emergency Banner -->
+    <div class="emergency-banner" style="margin-top: 70px;">
+        <span>🚨 Medical Emergency?</span>
+        <a href="tel:108">Call 108 Ambulance</a>
+        <a href="tel:112">Call 112 Emergency</a>
+    </div>
+
+    <!-- Hospitals Header -->
+    <div class="hospitals-header" style="margin-top: 0;">
+        <h1>🏥 Find Hospitals</h1>
+        <p>Locate nearby hospitals and healthcare facilities</p>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="search-filters">
+        <div class="search-row">
+            <select id="filterDistrict" class="form-input form-select">
+                <option value="">All Districts</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Visakhapatnam">Visakhapatnam</option>
+                <option value="Guntur">Guntur</option>
+                <option value="Krishna">Krishna</option>
+                <option value="Warangal">Warangal</option>
+                <option value="Kurnool">Kurnool</option>
+                <option value="Nellore">Nellore</option>
+                <option value="Chittoor">Chittoor</option>
+                <option value="Karimnagar">Karimnagar</option>
+                <option value="Khammam">Khammam</option>
+                <option value="Nizamabad">Nizamabad</option>
+                <option value="West Godavari">West Godavari</option>
+                <option value="Siddipet">Siddipet</option>
+                <option value="Kamareddy">Kamareddy</option>
+            </select>
+            <select id="filterType" class="form-input form-select">
+                <option value="">All Types</option>
+                <option value="Government">Government</option>
+                <option value="Private">Private</option>
+                <option value="PHC">PHC</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Hospitals Grid -->
+    <div class="hospitals-grid" id="hospitalsGrid">
+        <!-- Hospitals will be rendered here by JavaScript -->
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="dashboard.html" class="mobile-nav-btn">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="chat.html" class="mobile-nav-btn">
+                <span class="nav-icon">💬</span>
+                <span>Chat</span>
+            </a>
+            <a href="skin-analysis.html" class="mobile-nav-btn">
+                <span class="nav-icon">📷</span>
+                <span>Skin</span>
+            </a>
+            <a href="hospitals.html" class="mobile-nav-btn active">
+                <span class="nav-icon">🏥</span>
+                <span>Hospitals</span>
+            </a>
+            <a href="profile.html" class="mobile-nav-btn">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Initialize hospitals page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHospitals();
+
+            // Filter functionality
+            document.getElementById('filterDistrict').addEventListener('change', filterHospitals);
+            document.getElementById('filterType').addEventListener('change', filterHospitals);
+        });
+
+        function filterHospitals() {
+            const district = document.getElementById('filterDistrict').value;
+            const type = document.getElementById('filterType').value;
+
+            const filtered = HOSPITALS.filter(h => {
+                const matchesDistrict = !district || h.dist.includes(district);
+                const matchesType = !type || h.type.includes(type);
+
+                return matchesDistrict && matchesType;
+            });
+
+            renderHospitalsList(filtered);
+        }
+
+        function renderHospitals() {
+            renderHospitalsList(HOSPITALS);
+        }
+
+        function renderHospitalsList(hospitals) {
+            const grid = document.getElementById('hospitalsGrid');
+
+            if (hospitals.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results" style="grid-column: 1 / -1;">
+                        <div class="icon">🔍</div>
+                        <h3>No hospitals found</h3>
+                        <p>Try adjusting your search or filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = hospitals.map(h => `
+                <div class="hospital-card ${h.emergency ? 'emergency' : ''} animate-scale-in">
+                    <div class="hospital-header">
+                        <div class="hospital-icon">🏥</div>
+                        <div class="hospital-info">
+                            <h3>${h.name}</h3>
+                            <div class="hospital-location">📍 ${h.dist} District</div>
+                        </div>
+                    </div>
+                    <div class="hospital-details">
+                        <span class="hospital-tag type">🏷️ ${h.type}</span>
+                        <span class="hospital-tag beds">🛏️ ${h.beds} beds</span>
+                        <span class="hospital-tag distance">📏 ~${Math.floor(Math.random() * 20 + 5)} km</span>
+                    </div>
+                    <div class="hospital-services">
+                        <div class="services-label">Available Services</div>
+                        <div class="services-list">
+                            ${h.services.map(s => `<span class="service-chip">${s}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="hospital-actions">
+                        <a href="tel:${h.phone}" class="btn ${h.emergency ? 'btn-emergency' : 'btn-directions'}">
+                            📞 ${h.emergency ? 'Emergency' : 'Call'}
+                        </a>
+                        <a href="https://www.google.com/maps/search/${encodeURIComponent(h.name + ' ' + h.dist)}" 
+                           target="_blank" class="btn btn-directions">
+                            🗺️ Directions
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+
+</html>

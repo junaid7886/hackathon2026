@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Health Chat — RuralMed AI</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .chat-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: var(--nav-height);
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+        
+        @media (max-width: 768px) {
+            .chat-page {
+                padding-bottom: var(--mobile-nav-height);
+            }
+            .chat-container {
+                box-shadow: none;
+            }
+        }
+        
+        .voice-bar {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--primary-pale);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+        }
+        
+        .voice-bar.active {
+            display: flex;
+        }
+        
+        .wave-bars {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 28px;
+        }
+        
+        .wave-bar {
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: wave 0.8s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(1) {
+            height: 8px;
+            animation-delay: 0s;
+        }
+        
+        .wave-bar:nth-child(2) {
+            height: 18px;
+            animation-delay: 0.1s;
+        }
+        
+        .wave-bar:nth-child(3) {
+            height: 26px;
+            animation-delay: 0.2s;
+        }
+        
+        .wave-bar:nth-child(4) {
+            height: 14px;
+            animation-delay: 0.3s;
+        }
+        
+        .wave-bar:nth-child(5) {
+            height: 22px;
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="dashboard.html" class="navbar-logo">
+                <div class="logo-icon">🏥</div>
+                <span class="logo-text">Rural<span>Med</span> AI</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span>Home</span>
+                </a>
+                <a href="chat.html" class="nav-link active">
+                    <span class="nav-icon">💬</span>
+                    <span>Chat</span>
+                </a>
+                <a href="doctors.html" class="nav-link">
+                    <span class="nav-icon">👨‍⚕️</span>
+                    <span>Doctors</span>
+                </a>
+                <a href="hospitals.html" class="nav-link">
+                    <span class="nav-icon">🏥</span>
+                    <span>Hospitals</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </div>
+
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="hi">हि</button>
+                <button class="lang-btn" data-lang="te">తె</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chat Page -->
+    <div class="chat-page">
+        <div class="chat-container">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-avatar">🏥</div>
+                <div>
+                    <div class="chat-title">RuralMed AI Assistant</div>
+                    <div class="chat-status">
+                        <span class="chat-status-dot"></span>
+                        <span>AI Online — Ready to help</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-welcome animate-fade-in">
+                    <div class="chat-welcome-icon">👋</div>
+                    <h3>Hi! I'm RuralMed AI</h3>
+                    <p>
+                        Tell me about your health problem in <strong>English, Hindi, or Telugu</strong>. I'll assess your risk level and recommend what to do next.
+                        <br><br> You can also use your <strong>voice 🎤</strong> to speak, or upload a <strong>skin photo 📷</strong> for analysis.
+                    </p>
+                    <div style="margin-top:12px;padding:8px 12px;background:rgba(52,152,219,0.1);border-radius:8px;display:inline-block;">
+                        <span style="font-size:0.8rem;color:#3498db;">🔬 Powered by <strong>Infermedica</strong> medical AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Bar -->
+            <div class="chat-input-bar">
+                <!-- Quick Symptom Chips -->
+                <div class="symptom-chips" id="symptomChips">
+                    <!-- Chips will be rendered by JS -->
+                </div>
+
+                <!-- Voice Recording Bar -->
+                <div class="voice-bar" id="voiceBar">
+                    <div class="wave-bars">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <span id="voiceBarText" style="flex: 1; font-size: 0.9rem; color: var(--gray-500);">Listening...</span>
+                    <button onclick="stopVoice()" class="btn btn-sm btn-danger">Stop</button>
+                </div>
+
+                <!-- Input Row -->
+                <div class="chat-input-row">
+                    <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">
+                        🎤
+                    </button>
+
+                    <div class="chat-input-wrap">
+                        <textarea class="chat-textarea" id="chatInput" placeholder="Describe your symptoms... (e.g., I have fever and headache)" rows="1"></textarea>
+                        <button class="attach-btn" onclick="document.getElementById('imageInput').click()" title="Upload skin photo">
+                            📷
+                        </button>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    </div>
+
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send Message">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="dashboard.html" class="mobile-nav-btn">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="chat.html" class="mobile-nav-btn active">
+                <span class="nav-icon">💬</span>
+                <span>Chat</span>
+            </a>
+            <a href="skin-analysis.html" class="mobile-nav-btn">
+                <span class="nav-icon">📷</span>
+                <span>Skin</span>
+            </a>
+            <a href="hospitals.html" class="mobile-nav-btn">
+                <span class="nav-icon">🏥</span>
+                <span>Hospitals</span>
+            </a>
+            <a href="profile.html" class="mobile-nav-btn">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Emergency Overlay -->
+    <div class="emergency-overlay" id="emergencyOverlay">
+        <div class="emergency-icon">🚨</div>
+        <div class="emergency-title">EMERGENCY ALERT</div>
+        <div class="emergency-message">
+            Your symptoms indicate a <strong>critical health emergency</strong>. Please call for help immediately or go to the nearest hospital.
+        </div>
+        <a href="tel:108" style="text-decoration: none; width: 100%; max-width: 300px;">
+            <button class="emergency-btn primary">📞 CALL 108 — AMBULANCE</button>
+        </a>
+        <a href="hospitals.html" style="text-decoration: none; width: 100%; max-width: 300px;">
+            <button class="emergency-btn secondary">🏥 Find Nearest Hospital</button>
+        </a>
+        <button class="emergency-dismiss" onclick="hideEmergencyOverlay()">
+            I understand — Dismiss
+        </button>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

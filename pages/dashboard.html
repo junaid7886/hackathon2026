@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Dashboard — RuralMed AI</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="dashboard.html" class="navbar-logo">
+                <div class="logo-icon">🏥</div>
+                <span class="logo-text">Rural<span>Med</span> AI</span>
+            </a>
+
+            <div class="navbar-nav">
+                <a href="dashboard.html" class="nav-link active">
+                    <span class="nav-icon">🏠</span>
+                    <span>Home</span>
+                </a>
+                <a href="chat.html" class="nav-link">
+                    <span class="nav-icon">💬</span>
+                    <span>Chat</span>
+                </a>
+                <a href="doctors.html" class="nav-link">
+                    <span class="nav-icon">👨‍⚕️</span>
+                    <span>Doctors</span>
+                </a>
+                <a href="hospitals.html" class="nav-link">
+                    <span class="nav-icon">🏥</span>
+                    <span>Hospitals</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </div>
+
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="hi">हि</button>
+                <button class="lang-btn" data-lang="te">తె</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="dashboard-header-content">
+                <h2 class="dashboard-greeting" id="dashGreeting">Good Morning, User 👋</h2>
+                <p class="dashboard-subtitle">How are you feeling today?</p>
+
+                <!-- Risk Banner (Hidden by default) -->
+                <div class="risk-banner" id="riskBanner" style="display: none;">
+                    <div>
+                        <div style="font-size: 0.75rem; opacity: 0.8;">Last Risk Score</div>
+                        <div class="risk-score-display" id="lastRiskScore">—</div>
+                    </div>
+                    <div class="risk-info">
+                        <h4>Status</h4>
+                        <div class="risk-level" id="lastRiskLevel">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Quick Actions Grid -->
+            <div class="section-header">
+                <h3 class="section-title">Quick Actions</h3>
+            </div>
+
+            <div class="grid-2 mb-4">
+                <a href="chat.html" class="card feature-card accent-teal" style="text-decoration: none;">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">Health Chat</div>
+                    <div class="card-description">Describe your symptoms and get AI-powered health guidance</div>
+                </a>
+
+                <a href="profile.html" class="card feature-card accent-blue" style="text-decoration: none;">
+                    <div class="card-icon">👤</div>
+                    <div class="card-title">My Profile</div>
+                    <div class="card-description">Manage your health history and medical conditions</div>
+                </a>
+
+                <a href="doctors.html" class="card feature-card accent-purple" style="text-decoration: none;">
+                    <div class="card-icon">👨‍⚕️</div>
+                    <div class="card-title">Find Doctors</div>
+                    <div class="card-description">Connect with PHC and government doctors nearby</div>
+                </a>
+
+                <a href="hospitals.html" class="card feature-card accent-orange" style="text-decoration: none;">
+                    <div class="card-icon">🏥</div>
+                    <div class="card-title">Hospitals</div>
+                    <div class="card-description">Find government hospitals and emergency services</div>
+                </a>
+            </div>
+
+            <!-- Skin Analysis Card -->
+            <a href="skin-analysis.html" class="card" style="display: flex; align-items: center; gap: 20px; text-decoration: none; margin-bottom: 24px;">
+                <div style="font-size: 3rem;">📷</div>
+                <div style="flex: 1;">
+                    <div class="card-title">Skin Disease Analysis</div>
+                    <div class="card-description">Upload a photo for AI-powered skin condition analysis</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--primary);">→</div>
+            </a>
+
+            <!-- Emergency Helplines -->
+            <div class="section-header">
+                <h3 class="section-title">Emergency Helplines</h3>
+            </div>
+
+            <div class="helpline-bar">
+                <span class="helpline-icon">🔴</span>
+                <div class="helpline-content">
+                    <div class="helpline-title">24/7 Emergency Services</div>
+                    <div class="helpline-numbers">
+                        Ambulance: <strong>108</strong> · Health: <strong>104</strong> · Women: <strong>181</strong> · Cyber: <strong>1930</strong>
+                    </div>
+                </div>
+                <a href="tel:108" class="helpline-call">📞 108</a>
+            </div>
+
+            <!-- Health Tips Section -->
+            <div class="section-header mt-4">
+                <h3 class="section-title">Health Tips</h3>
+                <a href="#" class="section-link">View All →</a>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">💧</div>
+                    <div class="card-title">Stay Hydrated</div>
+                    <div class="card-description">Drink at least 8 glasses of water daily, especially in hot weather.</div>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">🥗</div>
+                    <div class="card-title">Eat Healthy</div>
+                    <div class="card-description">Include fruits, vegetables, and whole grains in your daily diet.</div>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 12px;">🏃</div>
+                    <div class="card-title">Stay Active</div>
+                    <div class="card-description">30 minutes of daily exercise helps maintain good health.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="navbar-logo">
+                        <div class="logo-icon">🏥</div>
+                        <span class="logo-text">Rural<span>Med</span> AI</span>
+                    </div>
+                    <p>AI-powered healthcare assistant for rural communities. Early risk detection and smart health guidance.</p>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="chat.html">Health Chat</a></li>
+                        <li><a href="doctors.html">Find Doctors</a></li>
+                        <li><a href="hospitals.html">Hospitals</a></li>
+                        <li><a href="skin-analysis.html">Skin Analysis</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Emergency</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:108">Ambulance: 108</a></li>
+                        <li><a href="tel:104">Health Helpline: 104</a></li>
+                        <li><a href="tel:181">Women Helpline: 181</a></li>
+                        <li><a href="tel:100">Police: 100</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 RuralMed AI. Built for rural India with ❤️</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="dashboard.html" class="mobile-nav-btn active">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="chat.html" class="mobile-nav-btn">
+                <span class="nav-icon">💬</span>
+                <span>Chat</span>
+            </a>
+            <a href="skin-analysis.html" class="mobile-nav-btn">
+                <span class="nav-icon">📷</span>
+                <span>Skin</span>
+            </a>
+            <a href="hospitals.html" class="mobile-nav-btn">
+                <span class="nav-icon">🏥</span>
+                <span>Hospitals</span>
+            </a>
+            <a href="profile.html" class="mobile-nav-btn">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

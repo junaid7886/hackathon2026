@@ -1,0 +1,3149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>RuralMed AI — Early Risk Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --teal: #0d9488;
+            --teal-light: #14b8a6;
+            --teal-dark: #0f766e;
+            --teal-pale: #f0fdfa;
+            --teal-mid: #ccfbf1;
+            --red: #ef4444;
+            --red-pale: #fef2f2;
+            --amber: #f59e0b;
+            --amber-pale: #fffbeb;
+            --green: #22c55e;
+            --green-pale: #f0fdf4;
+            --orange: #f97316;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --gray-pale: #f1f5f9;
+            --text: #1e293b;
+            --font: 'Nunito', sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+        
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* ── SCREENS ── */
+        
+        .screen {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+            animation: fadeIn 0.35s ease;
+        }
+        
+        .screen.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        /* ── SCROLLABLE BODY ── */
+        
+        .screen-body {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 80px;
+        }
+        
+        .screen-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .screen-body::-webkit-scrollbar-thumb {
+            background: var(--gray-light);
+            border-radius: 2px;
+        }
+        /* ── TOP BAR ── */
+        
+        .topbar {
+            background: var(--white);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--gray-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        .topbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+        }
+        
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .logo-text span {
+            color: var(--teal);
+        }
+        
+        .topbar-back {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: none;
+            background: var(--gray-pale);
+            color: var(--gray);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .topbar-back:hover {
+            background: var(--teal-pale);
+            color: var(--teal);
+        }
+        
+        .topbar-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--dark);
+            flex: 1;
+        }
+        
+        .lang-pill {
+            display: flex;
+            border: 1px solid var(--gray-light);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .lang-pill button {
+            padding: 4px 10px;
+            border: none;
+            background: transparent;
+            font-family: var(--font);
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+        
+        .lang-pill button.active {
+            background: var(--teal);
+            color: white;
+        }
+        /* ── BOTTOM NAV ── */
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: var(--white);
+            border-top: 1px solid var(--gray-light);
+            display: flex;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .nav-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 8px 4px 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            transition: all 0.2s;
+            color: var(--gray);
+        }
+        
+        .nav-btn .nav-icon {
+            font-size: 1.3rem;
+        }
+        
+        .nav-btn .nav-label {
+            font-family: var(--font);
+            font-size: 0.62rem;
+            font-weight: 600;
+        }
+        
+        .nav-btn.active {
+            color: var(--teal);
+        }
+        
+        .nav-btn.active .nav-icon {
+            transform: translateY(-2px);
+        }
+        /* ── HERO LOGIN ── */
+        
+        .auth-screen {
+            background: linear-gradient(160deg, var(--teal-dark) 0%, var(--teal) 40%, var(--teal-light) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .auth-hero {
+            padding: 60px 24px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .auth-hero-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+        }
+        
+        .auth-hero h1 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .auth-hero p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            line-height: 1.6;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        
+        .auth-card {
+            background: var(--white);
+            border-radius: 28px 28px 0 0;
+            flex: 1;
+            padding: 28px 24px;
+            box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            background: var(--gray-pale);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.25s;
+        }
+        
+        .auth-tab.active {
+            background: var(--white);
+            color: var(--teal);
+            box-shadow: var(--shadow);
+        }
+        /* ── FORM ── */
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 0.95rem;
+            color: var(--dark);
+            background: var(--white);
+            outline: none;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+        
+        .form-input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        /* ── BUTTONS ── */
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            box-shadow: 0 4px 16px rgba(13, 148, 136, 0.35);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(13, 148, 136, 0.45);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-sm {
+            width: auto;
+            padding: 10px 20px;
+            font-size: 0.88rem;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--teal);
+            color: var(--teal);
+        }
+        
+        .btn-red {
+            background: linear-gradient(135deg, var(--red), #dc2626);
+            color: white;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+        }
+        /* ── DASHBOARD CARDS ── */
+        
+        .dashboard-hero {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            padding: 24px 20px;
+            color: white;
+        }
+        
+        .dashboard-hero h2 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+        
+        .dashboard-hero p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+        
+        .risk-strip {
+            margin-top: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .risk-strip-score {
+            font-family: var(--font-mono);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .risk-strip-info {
+            flex: 1;
+        }
+        
+        .risk-strip-label {
+            font-size: 0.72rem;
+            opacity: 0.8;
+        }
+        
+        .risk-strip-level {
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+        
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            padding: 20px;
+        }
+        
+        .dash-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        
+        .dash-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .dash-card:active {
+            transform: translateY(-1px);
+        }
+        
+        .dash-card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .dash-card-title {
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .dash-card-sub {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .dash-card.accent-1 {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+        }
+        
+        .dash-card.accent-2 {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+        
+        .dash-card.accent-3 {
+            background: linear-gradient(135deg, #fdf4ff, #fae8ff);
+        }
+        
+        .dash-card.accent-4 {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+        }
+        
+        .section-title {
+            padding: 0 20px 10px;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+        
+        .helpline-bar {
+            margin: 0 20px 20px;
+            background: var(--red-pale);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .helpline-bar .hb-num {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--red);
+            font-size: 1.1rem;
+        }
+        
+        .helpline-bar .hb-text {
+            font-size: 0.8rem;
+            color: var(--gray);
+            flex: 1;
+        }
+        
+        .blink {
+            animation: blink 1.2s step-end infinite;
+        }
+        
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0.2
+            }
+        }
+        /* ── PROFILE ── */
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            padding: 24px 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .profile-header h2 {
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        
+        .profile-header p {
+            font-size: 0.82rem;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+        
+        .card-section {
+            margin: 16px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-section-title {
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--teal-mid);
+        }
+        
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-pale);
+        }
+        
+        .toggle-row:last-child {
+            border-bottom: none;
+        }
+        
+        .toggle-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .toggle {
+            position: relative;
+            width: 46px;
+            height: 26px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--gray-light);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toggle input:checked+.toggle-slider {
+            background: var(--teal);
+        }
+        
+        .toggle input:checked+.toggle-slider::before {
+            transform: translateX(20px);
+        }
+        /* ── CHAT ── */
+        
+        .chat-messages {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 20px;
+        }
+        
+        .chat-messages::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--gray-light);
+        }
+        
+        .msg-row {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .msg-row.user {
+            flex-direction: row-reverse;
+        }
+        
+        .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .msg-avatar.ai {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+        }
+        
+        .msg-avatar.user-av {
+            background: var(--gray-pale);
+        }
+        
+        .msg-bubble {
+            max-width: 78%;
+            padding: 12px 14px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
+        
+        .msg-bubble.ai {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            border-top-left-radius: 4px;
+            color: var(--text);
+        }
+        
+        .msg-bubble.user {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            border-top-right-radius: 4px;
+        }
+        
+        .risk-card {
+            margin-top: 10px;
+            padding: 12px;
+            background: var(--gray-pale);
+            border-radius: 12px;
+        }
+        
+        .risk-card-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .risk-score-big {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .risk-level-pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        
+        .risk-level-pill.low {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+        
+        .risk-level-pill.moderate {
+            background: var(--amber-pale);
+            color: var(--amber);
+        }
+        
+        .risk-level-pill.high {
+            background: #fff7ed;
+            color: var(--orange);
+        }
+        
+        .risk-level-pill.critical {
+            background: var(--red-pale);
+            color: var(--red);
+            animation: critPulse 1.4s infinite;
+        }
+        
+        @keyframes critPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3)
+            }
+            50% {
+                box-shadow: 0 0 0 6px rgba(239, 68, 68, 0)
+            }
+        }
+        
+        .risk-bar-wrap {
+            margin-bottom: 8px;
+        }
+        
+        .risk-bar-track {
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.2s ease;
+            background: linear-gradient(90deg, var(--green), var(--amber), var(--orange), var(--red));
+        }
+        
+        .rec-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        
+        .rec-pill.self-care {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+        
+        .rec-pill.teleconsult {
+            background: var(--teal-pale);
+            color: var(--teal);
+        }
+        
+        .rec-pill.hospital {
+            background: #fff7ed;
+            color: var(--orange);
+        }
+        
+        .rec-pill.emergency {
+            background: var(--red-pale);
+            color: var(--red);
+        }
+        
+        .explain-toggle {
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: var(--teal-pale);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--teal);
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .explain-body {
+            display: none;
+            margin-top: 8px;
+            padding: 10px;
+            background: var(--white);
+            border-radius: 10px;
+        }
+        
+        .explain-body.open {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .factor-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .factor-label {
+            font-size: 0.78rem;
+            color: var(--gray);
+            flex: 1;
+        }
+        
+        .factor-bar {
+            flex: 2;
+            height: 5px;
+            background: var(--gray-light);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .factor-bar-fill {
+            height: 100%;
+            background: var(--teal);
+            border-radius: 3px;
+            transition: width 0.8s ease;
+        }
+        
+        .factor-val {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--teal);
+            width: 28px;
+            text-align: right;
+        }
+        /* typing indicator */
+        
+        .typing {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 14px;
+        }
+        
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 50%;
+            animation: typingDot 1.2s infinite;
+        }
+        
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingDot {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                background: var(--gray-light)
+            }
+            30% {
+                transform: translateY(-6px);
+                background: var(--teal)
+            }
+        }
+        /* ── CHAT INPUT BAR ── */
+        
+        .chat-input-bar {
+            background: var(--white);
+            padding: 12px 16px;
+            border-top: 1px solid var(--gray-light);
+            position: sticky;
+            bottom: 72px;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+        }
+        
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        
+        .chat-input-wrap {
+            flex: 1;
+            position: relative;
+        }
+        
+        .chat-textarea {
+            width: 100%;
+            padding: 11px 42px 11px 14px;
+            border: 1.5px solid var(--gray-light);
+            border-radius: 22px;
+            font-family: var(--font);
+            font-size: 0.9rem;
+            color: var(--dark);
+            background: var(--gray-pale);
+            outline: none;
+            resize: none;
+            max-height: 100px;
+            transition: border-color 0.2s;
+            line-height: 1.4;
+        }
+        
+        .chat-textarea:focus {
+            border-color: var(--teal);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+        
+        .attach-btn {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 2px;
+        }
+        
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        
+        .icon-btn.mic {
+            background: var(--gray-pale);
+            color: var(--gray);
+        }
+        
+        .icon-btn.mic.recording {
+            background: var(--red-pale);
+            color: var(--red);
+            animation: recPulse 0.8s infinite alternate;
+        }
+        
+        @keyframes recPulse {
+            from {
+                box-shadow: none
+            }
+            to {
+                box-shadow: 0 0 12px rgba(239, 68, 68, 0.4)
+            }
+        }
+        
+        .icon-btn.send {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+        }
+        
+        .icon-btn.send:hover {
+            transform: scale(1.05);
+        }
+        
+        .icon-btn.send:disabled {
+            background: var(--gray-light);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        .voice-bar {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 4px;
+            margin-top: 8px;
+        }
+        
+        .voice-bar.active {
+            display: flex;
+        }
+        
+        .wave-bars {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 28px;
+        }
+        
+        .wave-bar {
+            width: 4px;
+            background: var(--teal);
+            border-radius: 2px;
+            animation: wave 0.8s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(1) {
+            height: 8px;
+            animation-delay: 0s;
+        }
+        
+        .wave-bar:nth-child(2) {
+            height: 18px;
+            animation-delay: 0.1s;
+        }
+        
+        .wave-bar:nth-child(3) {
+            height: 26px;
+            animation-delay: 0.2s;
+        }
+        
+        .wave-bar:nth-child(4) {
+            height: 14px;
+            animation-delay: 0.3s;
+        }
+        
+        .wave-bar:nth-child(5) {
+            height: 22px;
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes wave {
+            0%,
+            100% {
+                transform: scaleY(0.4)
+            }
+            50% {
+                transform: scaleY(1)
+            }
+        }
+        
+        .voice-bar-text {
+            font-size: 0.82rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+        /* ── QUICK SYMPTOM CHIPS ── */
+        
+        .chips-wrap {
+            padding: 0 16px 8px;
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+        }
+        
+        .chips-wrap::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .chip {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: 1.5px solid var(--gray-light);
+            background: var(--white);
+            color: var(--gray);
+            font-family: var(--font);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        
+        .chip:hover,
+        .chip.sel {
+            border-color: var(--teal);
+            background: var(--teal-pale);
+            color: var(--teal);
+        }
+        /* ── DOCTORS ── */
+        
+        .search-wrap {
+            padding: 16px;
+        }
+        
+        .search-input-wrap {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border: 1.5px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 0.9rem;
+            color: var(--dark);
+            background: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .search-input:focus {
+            border-color: var(--teal);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+        
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 0 16px 16px;
+        }
+        
+        .filter-chips::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .fchip {
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 1.5px solid var(--gray-light);
+            background: var(--white);
+            font-family: var(--font);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--gray);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .fchip.active {
+            border-color: var(--teal);
+            background: var(--teal);
+            color: white;
+        }
+        
+        .doctor-list {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .doctor-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            border: 1.5px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .doctor-card:hover {
+            border-color: var(--teal-light);
+        }
+        
+        .doctor-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--teal-pale), var(--teal-mid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+        
+        .doctor-info {
+            flex: 1;
+        }
+        
+        .doctor-name {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+        
+        .doctor-spec {
+            font-size: 0.78rem;
+            color: var(--teal);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .doctor-hosp {
+            font-size: 0.78rem;
+            color: var(--gray);
+            margin-bottom: 6px;
+        }
+        
+        .doctor-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .doctor-tag {
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: var(--gray-pale);
+            color: var(--gray);
+        }
+        
+        .doctor-call {
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: none;
+            background: var(--teal-pale);
+            color: var(--teal);
+            font-family: var(--font);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .doctor-call:hover {
+            background: var(--teal);
+            color: white;
+        }
+        /* ── HOSPITALS ── */
+        
+        .hosp-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            margin: 0 16px 12px;
+            border-left: 4px solid var(--teal);
+            transition: all 0.2s;
+        }
+        
+        .hosp-card:hover {
+            transform: translateX(3px);
+        }
+        
+        .hosp-name {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .hosp-addr {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .hosp-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .hosp-tag {
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+        
+        .hosp-tag.emergency {
+            background: var(--red-pale);
+            color: var(--red);
+        }
+        
+        .hosp-tag.beds {
+            background: var(--teal-pale);
+            color: var(--teal);
+        }
+        
+        .hosp-tag.phone {
+            background: var(--gray-pale);
+            color: var(--gray);
+        }
+        
+        .hosp-directions {
+            margin-top: 10px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: none;
+            background: var(--teal-pale);
+            color: var(--teal);
+            font-family: var(--font);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        
+        .hosp-directions:hover {
+            background: var(--teal);
+            color: white;
+        }
+        
+        .district-filter {
+            padding: 0 16px 12px;
+        }
+        
+        .district-filter select {
+            width: 100%;
+        }
+        /* ── SKIN ANALYSIS ── */
+        
+        .skin-upload-zone {
+            margin: 20px;
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+        
+        .skin-upload-zone:hover {
+            border-color: var(--teal);
+            background: var(--teal-pale);
+        }
+        
+        .skin-upload-zone .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        
+        .skin-upload-zone h3 {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+        
+        .skin-upload-zone p {
+            font-size: 0.82rem;
+            color: var(--gray);
+        }
+        
+        #skinFileInput {
+            display: none;
+        }
+        
+        .skin-result {
+            margin: 0 16px 16px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+        
+        .skin-result.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .skin-result-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+        }
+        
+        .severity-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            margin-bottom: 10px;
+        }
+        
+        .severity-badge.mild {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+        
+        .severity-badge.moderate {
+            background: var(--amber-pale);
+            color: var(--amber);
+        }
+        
+        .severity-badge.severe {
+            background: var(--red-pale);
+            color: var(--red);
+        }
+        
+        .skin-info-title {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+        
+        .skin-info-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        /* ── EMERGENCY MODAL ── */
+        
+        .emergency-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(220, 38, 38, 0.97);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .emergency-overlay.show {
+            display: flex;
+        }
+        
+        .emergency-icon {
+            font-size: 5rem;
+            margin-bottom: 16px;
+            animation: shake 0.5s infinite alternate;
+        }
+        
+        @keyframes shake {
+            from {
+                transform: rotate(-5deg)
+            }
+            to {
+                transform: rotate(5deg)
+            }
+        }
+        
+        .emergency-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .emergency-sub {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .emergency-call-btn {
+            width: 100%;
+            max-width: 280px;
+            padding: 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: white;
+            color: var(--red);
+            font-family: var(--font);
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+        }
+        
+        .emergency-call-btn:hover {
+            transform: scale(1.03);
+        }
+        
+        .emergency-dismiss {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: var(--font);
+            font-weight: 700;
+            margin-top: 12px;
+        }
+        /* ── IMAGE PREVIEW in chat ── */
+        
+        .img-msg {
+            max-width: 200px;
+            border-radius: 12px;
+            margin-top: 6px;
+        }
+        /* ── TOAST ── */
+        
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: var(--dark);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        /* ── EMPTY STATE ── */
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state .es-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        
+        .empty-state p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        /* ── LOADING ── */
+        
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+        
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--teal);
+            border-radius: 50%;
+            animation: dotPulse 1.2s infinite;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes dotPulse {
+            0%,
+            60%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.8)
+            }
+            30% {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+        /* ── CHAT WELCOME ── */
+        
+        .chat-welcome {
+            padding: 20px;
+        }
+        
+        .chat-welcome-card {
+            background: linear-gradient(135deg, var(--teal-pale), var(--teal-mid));
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(13, 148, 136, 0.2);
+        }
+        
+        .chat-welcome-card h3 {
+            font-weight: 800;
+            color: var(--teal-dark);
+            margin-bottom: 6px;
+        }
+        
+        .chat-welcome-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        /* ── MISC ── */
+        
+        .pad {
+            padding: 0 16px;
+        }
+        
+        .mt-8 {
+            margin-top: 8px;
+        }
+        
+        .mb-16 {
+            margin-bottom: 16px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: var(--gray-pale);
+            margin: 12px 0;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid var(--gray-light);
+            margin: 12px 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: AUTH -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-auth" class="screen auth-screen active">
+        <div class="auth-hero">
+            <span class="auth-hero-icon">🏥</span>
+            <h1>RuralMed AI</h1>
+            <p>Early Risk Detection & Smart Health Guidance for Rural Communities</p>
+            <div style="margin-top:16px;">
+                <div class="lang-pill" style="justify-content:center; display:inline-flex;">
+                    <button class="active" onclick="setLang('en')">EN</button>
+                    <button onclick="setLang('hi')">हिंदी</button>
+                    <button onclick="setLang('te')">తెలుగు</button>
+                </div>
+            </div>
+        </div>
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="yourname@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="loginPass" class="form-input" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" onclick="doLogin()" style="margin-top:8px;">
+        <span>🔐</span> Login to RuralMed AI
+      </button>
+                <p style="text-align:center; margin-top:16px; font-size:0.82rem; color:var(--gray);">
+                    Demo: use any email & password
+                </p>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="registerForm" style="display:none;">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="regName" class="form-input" placeholder="e.g. Ravi Kumar">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="number" id="regAge" class="form-input" placeholder="35">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select id="regGender" class="form-input form-select">
+            <option value="">Select</option>
+            <option>Male</option><option>Female</option><option>Other</option>
+          </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="regEmail" class="form-input" placeholder="yourname@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="regPass" class="form-input" placeholder="Min. 8 characters">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Preferred Language</label>
+                    <select id="regLang" class="form-input form-select">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="ta">Tamil</option>
+          <option value="kn">Kannada</option>
+        </select>
+                </div>
+                <button class="btn btn-primary" onclick="doRegister()" style="margin-top:8px;">
+        <span>✅</span> Create Account
+      </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: DASHBOARD -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-dashboard" class="screen">
+        <div class="topbar">
+            <div class="topbar-logo">
+                <div class="logo-icon">🏥</div>
+                <span class="logo-text">Rural<span>Med</span> AI</span>
+            </div>
+            <div class="lang-pill">
+                <button class="active" onclick="setLang('en')">EN</button>
+                <button onclick="setLang('hi')">हि</button>
+                <button onclick="setLang('te')">తె</button>
+            </div>
+        </div>
+        <div class="screen-body">
+            <div class="dashboard-hero">
+                <h2 id="dashGreeting">Good Morning, Ravi 👋</h2>
+                <p>How are you feeling today?</p>
+                <div class="risk-strip" id="dashRiskStrip" style="display:none;">
+                    <div>
+                        <div class="risk-strip-label">Last Risk Score</div>
+                        <div class="risk-strip-score" id="dashLastScore">—</div>
+                    </div>
+                    <div class="risk-strip-info">
+                        <div class="risk-strip-label">Status</div>
+                        <div class="risk-strip-level" id="dashLastLevel">—</div>
+                    </div>
+                    <span id="dashLastRec" style="font-size:0.8rem;opacity:0.85;"></span>
+                </div>
+            </div>
+
+            <div class="dash-grid">
+                <div class="dash-card accent-1" onclick="navTo('chat')">
+                    <span class="dash-card-icon">💬</span>
+                    <div class="dash-card-title">Health Chat</div>
+                    <div class="dash-card-sub">Describe symptoms</div>
+                </div>
+                <div class="dash-card accent-2" onclick="navTo('profile')">
+                    <span class="dash-card-icon">👤</span>
+                    <div class="dash-card-title">My Profile</div>
+                    <div class="dash-card-sub">Health history</div>
+                </div>
+                <div class="dash-card accent-3" onclick="navTo('doctors')">
+                    <span class="dash-card-icon">👨‍⚕️</span>
+                    <div class="dash-card-title">Find Doctors</div>
+                    <div class="dash-card-sub">PHC & Govt doctors</div>
+                </div>
+                <div class="dash-card accent-4" onclick="navTo('hospitals')">
+                    <span class="dash-card-icon">🏥</span>
+                    <div class="dash-card-title">Hospitals</div>
+                    <div class="dash-card-sub">Govt & emergency</div>
+                </div>
+            </div>
+
+            <div class="dash-card" style="margin:0 16px 14px; cursor:pointer;" onclick="navTo('skin')">
+                <div style="display:flex; align-items:center; gap:14px;">
+                    <span style="font-size:2rem;">📷</span>
+                    <div>
+                        <div class="dash-card-title" style="text-align:left;">Skin Disease Analysis</div>
+                        <div class="dash-card-sub" style="text-align:left;">Upload photo for AI analysis</div>
+                    </div>
+                    <span style="margin-left:auto; color:var(--teal); font-size:1.2rem;">→</span>
+                </div>
+            </div>
+
+            <div class="helpline-bar">
+                <span class="blink">🔴</span>
+                <span class="hb-text">Ambulance <strong>108</strong> · Health <strong>104</strong> · Cyber <strong>1930</strong></span>
+                <a href="tel:108" style="text-decoration:none;">
+                    <div class="hb-num">108</div>
+                </a>
+            </div>
+        </div>
+        <div class="bottom-nav" id="bn-dashboard">
+            <button class="nav-btn active" onclick="navTo('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-btn" onclick="navTo('chat')"><span class="nav-icon">💬</span><span class="nav-label">Chat</span></button>
+            <button class="nav-btn" onclick="navTo('skin')"><span class="nav-icon">📷</span><span class="nav-label">Skin</span></button>
+            <button class="nav-btn" onclick="navTo('hospitals')"><span class="nav-icon">🏥</span><span class="nav-label">Hospitals</span></button>
+            <button class="nav-btn" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: CHAT -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-chat" class="screen" style="flex-direction:column; height:100vh;">
+        <div class="topbar">
+            <button class="topbar-back" onclick="navTo('dashboard')">←</button>
+            <span class="topbar-title">Health Chat</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;"></span>
+                <span style="font-size:0.75rem;color:var(--gray);font-weight:600;">AI Online</span>
+            </div>
+        </div>
+
+        <!-- Quick symptom chips -->
+        <div style="background:var(--white); padding:10px 0 0; border-bottom:1px solid var(--gray-light);">
+            <div class="chips-wrap" id="symChips"></div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-welcome">
+                <div class="chat-welcome-card">
+                    <h3>👋 Hi! I'm RuralMed AI</h3>
+                    <p>Tell me your health problem in <strong>English, Hindi, or Telugu</strong>. I'll assess your risk level and recommend what to do next. You can also use your <strong>voice 🎤</strong> or upload a skin photo 📷.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-bar">
+            <div class="voice-bar" id="voiceBar">
+                <div class="wave-bars">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                <span class="voice-bar-text" id="voiceBarText">Listening...</span>
+                <button onclick="stopVoice()" style="margin-left:auto; background:var(--red-pale); border:none; color:var(--red); padding:6px 12px; border-radius:8px; font-family:var(--font); font-weight:700; cursor:pointer; font-size:0.8rem;">Stop</button>
+            </div>
+            <div class="chat-input-row">
+                <button class="icon-btn mic" id="micBtn" onclick="toggleVoice()">🎤</button>
+                <div class="chat-input-wrap">
+                    <textarea class="chat-textarea" id="chatInput" placeholder="Describe your symptoms… (e.g. I have fever and headache)" rows="1" oninput="autoResize(this)"></textarea>
+                    <button class="attach-btn" onclick="document.getElementById('chatImgInput').click()" title="Upload skin photo">📷</button>
+                    <input type="file" id="chatImgInput" accept="image/*" style="display:none" onchange="handleChatImage(this)">
+                </div>
+                <button class="icon-btn send" id="sendBtn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="navTo('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-btn active" onclick="navTo('chat')"><span class="nav-icon">💬</span><span class="nav-label">Chat</span></button>
+            <button class="nav-btn" onclick="navTo('skin')"><span class="nav-icon">📷</span><span class="nav-label">Skin</span></button>
+            <button class="nav-btn" onclick="navTo('hospitals')"><span class="nav-icon">🏥</span><span class="nav-label">Hospitals</span></button>
+            <button class="nav-btn" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: PROFILE -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-profile" class="screen">
+        <div class="topbar">
+            <button class="topbar-back" onclick="navTo('dashboard')">←</button>
+            <span class="topbar-title">My Health Profile</span>
+            <button class="btn btn-primary btn-sm" onclick="saveProfile()">Save</button>
+        </div>
+        <div class="screen-body">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">👤</div>
+                <h2 id="profileName">Ravi Kumar</h2>
+                <p id="profileSub">Age 35 · Male · Blood Group A+</p>
+            </div>
+
+            <div class="card-section">
+                <div class="card-section-title">Personal Information</div>
+                <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="pName" class="form-input" placeholder="Your full name"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Age</label><input type="number" id="pAge" class="form-input" placeholder="Age"></div>
+                    <div class="form-group"><label class="form-label">Gender</label><select id="pGender" class="form-input form-select"><option>Male</option><option>Female</option><option>Other</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Blood Group</label><select id="pBlood" class="form-input form-select"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+                    <div class="form-group"><label class="form-label">Weight (kg)</label><input type="number" id="pWeight" class="form-input" placeholder="60"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Phone / Emergency Contact</label><input type="tel" id="pPhone" class="form-input" placeholder="+91 9XXXXXXXXX"></div>
+            </div>
+
+            <div class="card-section">
+                <div class="card-section-title">Medical Conditions</div>
+                <div class="toggle-row">
+                    <span class="toggle-label">🍬 Diabetes</span>
+                    <label class="toggle"><input type="checkbox" id="pDiabetes"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">💉 High Blood Pressure</span>
+                    <label class="toggle"><input type="checkbox" id="pBP"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">❤️ Heart Disease</span>
+                    <label class="toggle"><input type="checkbox" id="pHeart"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">🫁 Asthma / Breathing Issues</span>
+                    <label class="toggle"><input type="checkbox" id="pAsthma"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="form-group mt-8"><label class="form-label">Allergies (if any)</label><input type="text" id="pAllergies" class="form-input" placeholder="e.g. Penicillin, Peanuts"></div>
+                <div class="form-group"><label class="form-label">Current Medications</label><input type="text" id="pMeds" class="form-input" placeholder="e.g. Metformin 500mg"></div>
+            </div>
+
+            <div class="card-section">
+                <div class="card-section-title">Language Preference</div>
+                <div class="form-group">
+                    <label class="form-label">Preferred Language</label>
+                    <select id="pLang" class="form-input form-select" onchange="setLang(this.value)">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="ta">Tamil</option>
+          <option value="kn">Kannada</option>
+        </select>
+                </div>
+            </div>
+            <div style="height:20px;"></div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="navTo('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-btn" onclick="navTo('chat')"><span class="nav-icon">💬</span><span class="nav-label">Chat</span></button>
+            <button class="nav-btn" onclick="navTo('skin')"><span class="nav-icon">📷</span><span class="nav-label">Skin</span></button>
+            <button class="nav-btn" onclick="navTo('hospitals')"><span class="nav-icon">🏥</span><span class="nav-label">Hospitals</span></button>
+            <button class="nav-btn active" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: DOCTORS -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-doctors" class="screen">
+        <div class="topbar">
+            <button class="topbar-back" onclick="navTo('dashboard')">←</button>
+            <span class="topbar-title">Find Doctors</span>
+        </div>
+        <div class="screen-body">
+            <div class="search-wrap">
+                <div class="search-input-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="doctorSearch" placeholder="Search doctor or specialization..." oninput="filterDoctors()">
+                </div>
+            </div>
+            <div class="filter-chips" id="specFilters"></div>
+            <div class="doctor-list" id="doctorList"></div>
+            <div style="height:16px;"></div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="navTo('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-btn" onclick="navTo('chat')"><span class="nav-icon">💬</span><span class="nav-label">Chat</span></button>
+            <button class="nav-btn" onclick="navTo('skin')"><span class="nav-icon">📷</span><span class="nav-label">Skin</span></button>
+            <button class="nav-btn" onclick="navTo('hospitals')"><span class="nav-icon">🏥</span><span class="nav-label">Hospitals</span></button>
+            <button class="nav-btn" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: HOSPITALS -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-hospitals" class="screen">
+        <div class="topbar">
+            <button class="topbar-back" onclick="navTo('dashboard')">←</button>
+            <span class="topbar-title">Government Hospitals</span>
+        </div>
+        <div class="screen-body">
+            <div class="search-wrap">
+                <div class="search-input-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="hospSearch" placeholder="Search hospital or district..." oninput="filterHospitals()">
+                </div>
+            </div>
+            <div class="pad mb-16">
+                <select class="form-input form-select" id="districtFilter" onchange="filterHospitals()">
+        <option value="">All Districts</option>
+      </select>
+            </div>
+            <div class="helpline-bar" style="margin:0 16px 16px;">
+                <span class="blink">🔴</span>
+                <div>
+                    <div style="font-weight:700; font-size:0.82rem; color:var(--dark);">Emergency Helplines</div>
+                    <div style="font-size:0.78rem; color:var(--gray);">Ambulance: <strong style="color:var(--red);">108</strong> · Health: <strong>104</strong> · Women: <strong>181</strong></div>
+                </div>
+            </div>
+            <div id="hospitalList"></div>
+            <div style="height:16px;"></div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="navTo('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-btn" onclick="navTo('chat')"><span class="nav-icon">💬</span><span class="nav-label">Chat</span></button>
+            <button class="nav-btn" onclick="navTo('skin')"><span class="nav-icon">📷</span><span class="nav-label">Skin</span></button>
+            <button class="nav-btn active" onclick="navTo('hospitals')"><span class="nav-icon">🏥</span><span class="nav-label">Hospitals</span></button>
+            <button class="nav-btn" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCREEN: SKIN ANALYSIS -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="screen-skin" class="screen">
+        <div class="topbar">
+            <button class="topbar-back" onclick="navTo('dashboard')">←</button>
+            <span class="topbar-title">Skin Disease Analysis</span>
+        </div>
+        <div class="screen-body">
+            <div style="padding:16px 16px 0;">
+                <div style="background:var(--amber-pale); border:1px solid rgba(245,158,11,0.3); border-radius:var(--radius-sm); padding:12px 14px; font-size:0.82rem; color:var(--gray); line-height:1.6;">
+                    ⚠️ Upload a clear photo of the affected skin area. AI analysis is for guidance only — always consult a doctor for medical decisions.
+                </div>
+            </div>
+
+            <div class="skin-upload-zone" onclick="document.getElementById('skinFileInput').click()">
+                <div class="upload-icon">📷</div>
+                <h3>Upload Skin Photo</h3>
+                <p>Tap to take photo or upload from gallery<br>Supported: JPG, PNG, HEIC</p>
+                <input type="file" id="skinFileInput" accept="image/*" onchange="analyzeSkin(this)">
+            </div>
+
+            <div style="text-align:center; color:var(--gray); font-size:0.82rem; padding:0 20px 16px;">— or choose a demo skin condition —</div>
+            <div style="display:flex; gap:8px; padding:0 16px 16px; flex-wrap:wrap; justify-content:center;">
+                <button class="chip" onclick="demoSkin('eczema')">🔴 Eczema</button>
+                <button class="chip" onclick="demoSkin('acne')">🟡 Acne</button>
+                <button class="chip" onclick="demoSkin('ringworm')">🟠 Ringworm</button>
+                <button class="chip" onclick="demoSkin('rash')">🟣 Skin Rash</button>
+            </div>
+
+            <div class="skin-result" id="skinResult">
+                <div style="display:flex; gap:10px; align-items:center; margin-bottom:14px;">
+                    <div style="width:80px; height:80px; border-radius:12px; background:var(--gray-pale); display:flex; align-items:center; justify-content:center; font-size:2.5rem; flex-shrink:0;" id="skinThumb">🖼️</div>
+                    <div>
+                        <div class="skin-info-title" id="skinCondition">Analyzing...</div>
+                        <div class="severity-badge" id="skinSeverity">⏳ Processing</div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="skin-info-text" id="skinDesc"></div>
+                <div style="margin-top:12px; padding:12px; background:var(--teal-pale); border-radius:var(--radius-sm);">
+                    <div style="font-weight:700; font-size:0.82rem; color:var(--teal); margin-bottom:4px;">Recommendation</div>
+                    <div class="skin-info-text" id="skinRec"></div>
+                </div>
+                <button class="btn btn-primary" style="margin-top:14px;" onclick="navTo('doctors')">
+        <span>👨‍⚕️</span> Find Dermatologist
+      </button>
+            </div>
+
+            <div style="height:20px;"></div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="navTo('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-btn" onclick="navTo('chat')"><span class="nav-icon">💬</span><span class="nav-label">Chat</span></button>
+            <button class="nav-btn active" onclick="navTo('skin')"><span class="nav-icon">📷</span><span class="nav-label">Skin</span></button>
+            <button class="nav-btn" onclick="navTo('hospitals')"><span class="nav-icon">🏥</span><span class="nav-label">Hospitals</span></button>
+            <button class="nav-btn" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- EMERGENCY OVERLAY -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="emergency-overlay" id="emergencyOverlay">
+        <div class="emergency-icon">🚨</div>
+        <div class="emergency-title">EMERGENCY ALERT</div>
+        <div class="emergency-sub">Your symptoms indicate a <strong>critical health emergency</strong>. Please call for help immediately or go to the nearest hospital.</div>
+        <a href="tel:108" style="text-decoration:none; width:100%; max-width:280px;">
+            <button class="emergency-call-btn">📞 CALL 108 — AMBULANCE</button>
+        </a>
+        <button class="emergency-call-btn" style="background:rgba(255,255,255,0.15); color:white; box-shadow:none;" onclick="navTo('hospitals')">
+    🏥 Nearest Hospital
+  </button>
+        <button class="emergency-dismiss" onclick="document.getElementById('emergencyOverlay').classList.remove('show')">
+    I understand — Dismiss
+  </button>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ═══════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════
+        const APP = {
+            user: null,
+            lang: 'en',
+            currentScreen: 'auth',
+            chatHistory: [],
+            lastRiskScore: null,
+            recognition: null,
+            isRecording: false,
+            profile: {
+                name: 'Ravi Kumar',
+                age: 35,
+                gender: 'Male',
+                blood: 'O+',
+                weight: 68,
+                phone: '+91 9876543210',
+                diabetes: true,
+                bp: false,
+                heart: false,
+                asthma: false,
+                allergies: '',
+                meds: 'Metformin 500mg',
+                lang: 'en'
+            }
+        };
+
+        const LANG_STRINGS = {
+            en: {
+                greeting: 'Good %time%, %name% 👋',
+                howFeel: 'How are you feeling today?'
+            },
+            hi: {
+                greeting: 'नमस्ते, %name% 👋',
+                howFeel: 'आज आप कैसा महसूस कर रहे हैं?'
+            },
+            te: {
+                greeting: 'నమస్కారం, %name% 👋',
+                howFeel: 'ఈరోజు మీకు ఎలా అనిపిస్తుందో?'
+            }
+        };
+
+        const SYMPTOM_CHIPS = {
+            en: ['🤒 Fever', '🤕 Headache', '🫀 Chest Pain', '😮‍💨 Breathlessness', '🤢 Nausea', '💊 Vomiting', '😵 Dizziness', '😫 Fatigue', '🤧 Cold/Cough', '🦷 Tooth Pain', '👁️ Eye Problem', '🦵 Joint Pain'],
+            hi: ['🤒 बुखार', '🤕 सिर दर्द', '🫀 सीने में दर्द', '😮‍💨 सांस की तकलीफ', '🤢 मतली', '💊 उल्टी', '😵 चक्कर', '😫 थकान', '🤧 जुकाम', '🦷 दांत दर्द', '👁️ आंख की समस्या', '🦵 जोड़ों का दर्द'],
+            te: ['🤒 జ్వరం', '🤕 తలనొప్పి', '🫀 ఛాతీ నొప్పి', '😮‍💨 శ్వాస తక్కువ', '🤢 వికారం', '💊 వాంతులు', '😵 తలతిరగడం', '😫 అలసట', '🤧 జలుబు', '🦷 పంటి నొప్పి', '👁️ కంటి సమస్య', '🦵 కీళ్ళ నొప్పి']
+        };
+
+        const SLANG_MAP = {
+            'uchchu': 'fever',
+            'tala noppi': 'headache',
+            'ratta potu': 'vomiting',
+            'oka teesuko': 'breathlessness',
+            'goddu noppi': 'stomach pain',
+            'noru noppi': 'throat pain',
+            'bukhar': 'fever',
+            'sar dard': 'headache',
+            'ulti': 'vomiting',
+            'pet dard': 'stomach pain',
+            'sans nahi': 'breathlessness',
+            'seena dard': 'chest pain',
+            'chakkar': 'dizziness',
+            'kamzori': 'weakness',
+            'thakaan': 'fatigue'
+        };
+
+        // ═══════════════════════════════════════════
+        // DOCTORS DATA
+        // ═══════════════════════════════════════════
+        const DOCTORS = [{
+            name: 'Dr. Suresh Babu Rao',
+            spec: 'General Physician',
+            hosp: 'PHC Nellore',
+            dist: 'Nellore',
+            phone: '9441234567',
+            avail: 'Mon-Sat 9am-1pm',
+            emoji: '👨‍⚕️',
+            exp: '12 yrs',
+            qual: 'MBBS, MD'
+        }, {
+            name: 'Dr. Lakshmi Devi',
+            spec: 'Gynecologist',
+            hosp: 'Govt. Hospital Guntur',
+            dist: 'Guntur',
+            phone: '9848765432',
+            avail: 'Mon-Fri 10am-2pm',
+            emoji: '👩‍⚕️',
+            exp: '15 yrs',
+            qual: 'MBBS, MS'
+        }, {
+            name: 'Dr. Ramana Murthy',
+            spec: 'Cardiologist',
+            hosp: 'King George Hospital Vizag',
+            dist: 'Visakhapatnam',
+            phone: '9392345678',
+            avail: 'Mon-Sat 8am-12pm',
+            emoji: '👨‍⚕️',
+            exp: '20 yrs',
+            qual: 'MBBS, DM'
+        }, {
+            name: 'Dr. Padmavathi',
+            spec: 'Dermatologist',
+            hosp: 'Govt. Dermatology Hyderabad',
+            dist: 'Hyderabad',
+            phone: '9908765432',
+            avail: 'Tue-Sat 9am-1pm',
+            emoji: '👩‍⚕️',
+            exp: '10 yrs',
+            qual: 'MBBS, MD'
+        }, {
+            name: 'Dr. Venkata Krishna',
+            spec: 'Pediatrician',
+            hosp: 'PHC Tenali',
+            dist: 'Guntur',
+            phone: '9441876543',
+            avail: 'Mon-Fri 9am-3pm',
+            emoji: '👨‍⚕️',
+            exp: '8 yrs',
+            qual: 'MBBS, DCH'
+        }, {
+            name: 'Dr. Annapurna Reddy',
+            spec: 'General Physician',
+            hosp: 'CHC Warangal',
+            dist: 'Warangal',
+            phone: '9866543210',
+            avail: 'Mon-Sat 8am-2pm',
+            emoji: '👩‍⚕️',
+            exp: '9 yrs',
+            qual: 'MBBS'
+        }, {
+            name: 'Dr. Siva Prasad',
+            spec: 'Orthopedic',
+            hosp: 'Govt. Ortho Hospital Vijayawada',
+            dist: 'Krishna',
+            phone: '9440123456',
+            avail: 'Mon-Fri 10am-4pm',
+            emoji: '👨‍⚕️',
+            exp: '18 yrs',
+            qual: 'MBBS, MS Ortho'
+        }, {
+            name: 'Dr. Manjula Sharma',
+            spec: 'Pediatrician',
+            hosp: 'Niloufer Hospital Hyderabad',
+            dist: 'Hyderabad',
+            phone: '9849234567',
+            avail: 'Mon-Sat 9am-1pm',
+            emoji: '👩‍⚕️',
+            exp: '14 yrs',
+            qual: 'MBBS, MD Peds'
+        }, {
+            name: 'Dr. Ravi Teja',
+            spec: 'General Physician',
+            hosp: 'PHC Kurnool',
+            dist: 'Kurnool',
+            phone: '9391234567',
+            avail: 'Mon-Fri 8am-12pm',
+            emoji: '👨‍⚕️',
+            exp: '6 yrs',
+            qual: 'MBBS'
+        }, {
+            name: 'Dr. Saritha Kumari',
+            spec: 'Gynecologist',
+            hosp: 'Govt. Maternity Tirupati',
+            dist: 'Chittoor',
+            phone: '9876123456',
+            avail: 'Mon-Sat 9am-2pm',
+            emoji: '👩‍⚕️',
+            exp: '11 yrs',
+            qual: 'MBBS, DGO'
+        }, {
+            name: 'Dr. Narasimha Rao',
+            spec: 'Cardiologist',
+            hosp: 'NIMS Hospital Hyderabad',
+            dist: 'Hyderabad',
+            phone: '9440987654',
+            avail: 'Mon-Fri 9am-1pm',
+            emoji: '👨‍⚕️',
+            exp: '22 yrs',
+            qual: 'MBBS, DM Card'
+        }, {
+            name: 'Dr. Usha Rani',
+            spec: 'Dermatologist',
+            hosp: 'PHC Eluru',
+            dist: 'West Godavari',
+            phone: '9848321098',
+            avail: 'Tue-Fri 10am-2pm',
+            emoji: '👩‍⚕️',
+            exp: '7 yrs',
+            qual: 'MBBS, DVD'
+        }, ];
+
+        const HOSPITALS = [{
+            name: 'King George Hospital',
+            addr: 'Maharani Peta, Visakhapatnam, AP 530002',
+            dist: 'Visakhapatnam',
+            phone: '0891-2564891',
+            emergency: true,
+            beds: 950
+        }, {
+            name: 'Govt. General Hospital Guntur',
+            addr: 'Collector Office Rd, Guntur, AP 522001',
+            dist: 'Guntur',
+            phone: '0863-2232933',
+            emergency: true,
+            beds: 700
+        }, {
+            name: 'NIMS (Nizams Institute)',
+            addr: 'Punjagutta, Hyderabad, TS 500082',
+            dist: 'Hyderabad',
+            phone: '040-23489000',
+            emergency: true,
+            beds: 1000
+        }, {
+            name: 'PHC Nellore Urban',
+            addr: 'MG Road, Nellore, AP 524001',
+            dist: 'Nellore',
+            phone: '0861-2334455',
+            emergency: false,
+            beds: 50
+        }, {
+            name: 'Govt. District Hospital Kurnool',
+            addr: 'Bellary Road, Kurnool, AP 518002',
+            dist: 'Kurnool',
+            phone: '08518-222333',
+            emergency: true,
+            beds: 300
+        }, {
+            name: 'Tirupati Govt. General Hospital',
+            addr: 'Tirupati, Chittoor, AP 517501',
+            dist: 'Chittoor',
+            phone: '0877-2252244',
+            emergency: true,
+            beds: 500
+        }, {
+            name: 'Govt. Hospital Warangal',
+            addr: 'Station Road, Hanamkonda, TS 506001',
+            dist: 'Warangal',
+            phone: '0870-2441234',
+            emergency: true,
+            beds: 400
+        }, {
+            name: 'CHC Tenali',
+            addr: 'Bus Stand Road, Tenali, AP 522201',
+            dist: 'Guntur',
+            phone: '08644-224455',
+            emergency: false,
+            beds: 100
+        }, {
+            name: 'Niloufer Hospital (Children)',
+            addr: 'Red Hills, Hyderabad, TS 500004',
+            dist: 'Hyderabad',
+            phone: '040-23312345',
+            emergency: true,
+            beds: 450
+        }, {
+            name: 'PHC Eluru Urban',
+            addr: 'Eluru Town, West Godavari, AP 534001',
+            dist: 'West Godavari',
+            phone: '08812-234567',
+            emergency: false,
+            beds: 30
+        }, {
+            name: 'Govt. Maternity Hospital Vijayawada',
+            addr: 'One Town, Vijayawada, AP 520001',
+            dist: 'Krishna',
+            phone: '0866-2433222',
+            emergency: true,
+            beds: 200
+        }, {
+            name: 'Area Hospital Nandyal',
+            addr: 'Main Road, Nandyal, AP 518502',
+            dist: 'Kurnool',
+            phone: '08514-222111',
+            emergency: false,
+            beds: 80
+        }, ];
+
+        const SKIN_CONDITIONS = {
+            eczema: {
+                name: 'Atopic Eczema (Dermatitis)',
+                severity: 'moderate',
+                emoji: '🔴',
+                desc: 'Eczema causes dry, itchy, inflamed skin. It is a chronic condition that commonly affects the folds of arms, behind the knees, and face. It is non-contagious but requires management.',
+                rec: 'Apply moisturizer regularly. Avoid harsh soaps and extreme temperatures. A dermatologist can prescribe topical corticosteroids if needed. Monitor for secondary infections.'
+            },
+            acne: {
+                name: 'Acne Vulgaris',
+                severity: 'mild',
+                emoji: '🟡',
+                desc: 'Acne is caused by blocked hair follicles with oil and dead skin cells. Results in pimples, blackheads, and whiteheads, mainly on face, chest, and back.',
+                rec: 'Wash affected area twice daily with mild cleanser. Avoid squeezing pimples. Over-the-counter benzoyl peroxide or salicylic acid can help. Persistent or severe acne should be evaluated by a dermatologist.'
+            },
+            ringworm: {
+                name: 'Tinea Corporis (Ringworm)',
+                severity: 'moderate',
+                emoji: '🟠',
+                desc: 'Ringworm is a fungal infection (not actually a worm) that creates ring-shaped, scaly patches on the skin. It is contagious and spreads through direct contact.',
+                rec: 'Apply antifungal cream (clotrimazole or terbinafine) twice daily. Keep the area clean and dry. Avoid sharing personal items. Complete the full course of treatment (2-4 weeks) even if symptoms improve.'
+            },
+            rash: {
+                name: 'Contact Dermatitis / Rash',
+                severity: 'mild',
+                emoji: '🟣',
+                desc: 'A skin rash from contact with an irritant or allergen. Symptoms include redness, itching, swelling, and sometimes blisters. Common causes include plants, metals, soaps, and cosmetics.',
+                rec: 'Identify and avoid the triggering substance. Rinse the area with cool water. Apply 1% hydrocortisone cream for relief. Seek medical attention if rash spreads rapidly or you develop difficulty breathing.'
+            }
+        };
+
+        // ═══════════════════════════════════════════
+        // NAVIGATION
+        // ═══════════════════════════════════════════
+        function navTo(screen) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + screen).classList.add('active');
+            APP.currentScreen = screen;
+            if (screen === 'doctors') renderDoctors();
+            if (screen === 'hospitals') renderHospitals();
+            if (screen === 'chat') renderChips();
+            if (screen === 'profile') loadProfile();
+            if (screen === 'dashboard') updateDashboard();
+        }
+
+        // ═══════════════════════════════════════════
+        // AUTH
+        // ═══════════════════════════════════════════
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+        }
+
+        function doLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            if (!email || !pass) {
+                showToast('⚠️ Please enter email and password');
+                return;
+            }
+            APP.user = {
+                email,
+                name: APP.profile.name
+            };
+            showToast('✅ Welcome back, ' + APP.profile.name + '!');
+            navTo('dashboard');
+        }
+
+        function doRegister() {
+            const name = document.getElementById('regName').value;
+            const age = document.getElementById('regAge').value;
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
+            if (!name || !age || !email || !pass) {
+                showToast('⚠️ Please fill all fields');
+                return;
+            }
+            if (pass.length < 8) {
+                showToast('⚠️ Password must be 8+ characters');
+                return;
+            }
+            APP.user = {
+                name,
+                age,
+                email
+            };
+            APP.profile.name = name;
+            APP.profile.age = parseInt(age);
+            showToast('✅ Account created! Welcome, ' + name);
+            navTo('dashboard');
+        }
+
+        // ═══════════════════════════════════════════
+        // DASHBOARD
+        // ═══════════════════════════════════════════
+        function updateDashboard() {
+            const hour = new Date().getHours();
+            const time = hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : 'Evening';
+            const t = LANG_STRINGS[APP.lang] || LANG_STRINGS.en;
+            document.getElementById('dashGreeting').innerHTML =
+                t.greeting.replace('%time%', time).replace('%name%', APP.profile.name);
+            if (APP.lastRiskScore !== null) {
+                document.getElementById('dashRiskStrip').style.display = 'flex';
+                document.getElementById('dashLastScore').textContent = APP.lastRiskScore.score;
+                const lv = APP.lastRiskScore.level;
+                document.getElementById('dashLastLevel').textContent = lv.charAt(0).toUpperCase() + lv.slice(1);
+                document.getElementById('dashLastLevel').style.color = riskColor(lv);
+                document.getElementById('dashLastRec').textContent = APP.lastRiskScore.rec;
+            }
+        }
+
+        function riskColor(level) {
+            return {
+                low: '#22c55e',
+                moderate: '#f59e0b',
+                high: '#f97316',
+                critical: '#ef4444'
+            }[level] || '#64748b';
+        }
+
+        // ═══════════════════════════════════════════
+        // PROFILE
+        // ═══════════════════════════════════════════
+        function loadProfile() {
+            const p = APP.profile;
+            document.getElementById('pName').value = p.name;
+            document.getElementById('pAge').value = p.age;
+            document.getElementById('pGender').value = p.gender;
+            document.getElementById('pBlood').value = p.blood;
+            document.getElementById('pWeight').value = p.weight;
+            document.getElementById('pPhone').value = p.phone;
+            document.getElementById('pDiabetes').checked = p.diabetes;
+            document.getElementById('pBP').checked = p.bp;
+            document.getElementById('pHeart').checked = p.heart;
+            document.getElementById('pAsthma').checked = p.asthma;
+            document.getElementById('pAllergies').value = p.allergies;
+            document.getElementById('pMeds').value = p.meds;
+            document.getElementById('pLang').value = p.lang;
+            document.getElementById('profileName').textContent = p.name;
+            document.getElementById('profileSub').textContent = `Age ${p.age} · ${p.gender} · Blood Group ${p.blood}`;
+        }
+
+        function saveProfile() {
+            APP.profile = {
+                name: document.getElementById('pName').value || APP.profile.name,
+                age: parseInt(document.getElementById('pAge').value) || APP.profile.age,
+                gender: document.getElementById('pGender').value,
+                blood: document.getElementById('pBlood').value,
+                weight: parseInt(document.getElementById('pWeight').value) || APP.profile.weight,
+                phone: document.getElementById('pPhone').value,
+                diabetes: document.getElementById('pDiabetes').checked,
+                bp: document.getElementById('pBP').checked,
+                heart: document.getElementById('pHeart').checked,
+                asthma: document.getElementById('pAsthma').checked,
+                allergies: document.getElementById('pAllergies').value,
+                meds: document.getElementById('pMeds').value,
+                lang: document.getElementById('pLang').value
+            };
+            loadProfile();
+            showToast('✅ Profile saved!');
+        }
+
+        // ═══════════════════════════════════════════
+        // LANGUAGE
+        // ═══════════════════════════════════════════
+        function setLang(l) {
+            APP.lang = l;
+            document.querySelectorAll('.lang-pill button').forEach(b => b.classList.remove('active'));
+            renderChips();
+        }
+
+        // ═══════════════════════════════════════════
+        // CHAT — SYMPTOMS CHIPS
+        // ═══════════════════════════════════════════
+        function renderChips() {
+            const chips = SYMPTOM_CHIPS[APP.lang] || SYMPTOM_CHIPS.en;
+            const wrap = document.getElementById('symChips');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            chips.forEach(c => {
+                const el = document.createElement('div');
+                el.className = 'chip';
+                el.textContent = c;
+                el.onclick = () => {
+                    const txt = c.replace(/^[^\s]+\s/, '');
+                    const ta = document.getElementById('chatInput');
+                    ta.value = (ta.value ? ta.value + ', ' : '') + txt;
+                    autoResize(ta);
+                };
+                wrap.appendChild(el);
+            });
+        }
+
+        // ═══════════════════════════════════════════
+        // CHAT — SEND MESSAGE
+        // ═══════════════════════════════════════════
+        function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+        }
+
+        function preTranslate(text) {
+            let t = text.toLowerCase();
+            Object.entries(SLANG_MAP).forEach(([slang, eng]) => {
+                t = t.replace(new RegExp(slang, 'gi'), eng);
+            });
+            return t;
+        }
+
+        async function sendMessage() {
+            const ta = document.getElementById('chatInput');
+            const raw = ta.value.trim();
+            if (!raw) return;
+
+            const translated = preTranslate(raw);
+            ta.value = '';
+            ta.style.height = 'auto';
+
+            addUserBubble(raw);
+            showTyping();
+            document.getElementById('sendBtn').disabled = true;
+
+            const profile = APP.profile;
+            const profileCtx = `Patient: ${profile.name}, Age ${profile.age}, ${profile.gender}. Conditions: diabetes=${profile.diabetes}, highBP=${profile.bp}, heartDisease=${profile.heart}, asthma=${profile.asthma}. Meds: ${profile.meds||'none'}.`;
+
+            const history = APP.chatHistory.slice(-8).map(m => ({
+                role: m.role,
+                content: m.content
+            }));
+
+            try {
+                const res = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000,
+                        system: `You are RuralMed AI, a compassionate medical triage assistant for rural India. ${profileCtx}
+
+Respond ONLY with valid JSON (no markdown, no code blocks):
+{
+  "responseText": "<2-3 sentence warm, clear response in the SAME language the user wrote in>",
+  "riskScore": <0-100>,
+  "riskLevel": "<low|moderate|high|critical>",
+  "recommendation": "<Self-care|Teleconsultation|Hospital Visit|Emergency>",
+  "explanation": "<1-2 sentence clinical reasoning>",
+  "factors": [
+    {"label": "<factor>", "value": <0-100>},
+    {"label": "<factor>", "value": <0-100>},
+    {"label": "<factor>", "value": <0-100>}
+  ],
+  "detectedSymptoms": ["<symptom1>","<symptom2>"],
+  "suggestedSpec": "<doctor specialization>"
+}
+
+Risk rules: low=0-24, moderate=25-59, high=60-79, critical=80-100.
+If critical, start responseText with "EMERGENCY: ".
+Consider patient's existing conditions when scoring.`,
+                        messages: [...history, {
+                            role: 'user',
+                            content: translated
+                        }]
+                    })
+                });
+
+                const data = await res.json();
+                if (data.error) throw new Error(data.error.message);
+                const raw2 = data.content.map(c => c.text || '').join('').replace(/```json|```/g, '').trim();
+                let r;
+                try {
+                    r = JSON.parse(raw2);
+                } catch {
+                    const m = raw2.match(/\{[\s\S]*\}/);
+                    r = m ? JSON.parse(m[0]) : null;
+                }
+                if (!r) throw new Error('Parse error');
+
+                removeTyping();
+                addAIBubble(r);
+                APP.chatHistory.push({
+                    role: 'user',
+                    content: translated
+                });
+                APP.chatHistory.push({
+                    role: 'assistant',
+                    content: r.responseText
+                });
+                APP.lastRiskScore = {
+                    score: r.riskScore,
+                    level: r.riskLevel,
+                    rec: r.recommendation
+                };
+
+                if (r.riskLevel === 'critical') {
+                    setTimeout(() => document.getElementById('emergencyOverlay').classList.add('show'), 600);
+                }
+
+            } catch (e) {
+                removeTyping();
+                addErrorBubble('Could not connect to AI. ' + e.message);
+            }
+            document.getElementById('sendBtn').disabled = false;
+        }
+
+        function addUserBubble(text) {
+            const msgs = document.getElementById('chatMessages');
+            msgs.innerHTML += `
+    <div class="msg-row user">
+      <div class="msg-avatar user-av">👤</div>
+      <div class="msg-bubble user">${escHtml(text)}</div>
+    </div>`;
+            scrollChat();
+        }
+
+        function addAIBubble(r) {
+            const msgs = document.getElementById('chatMessages');
+            const recClass = {
+                'Self-care': 'self-care',
+                'Teleconsultation': 'teleconsult',
+                'Hospital Visit': 'hospital',
+                'Emergency': 'emergency'
+            }[r.recommendation] || 'self-care';
+            const recEmoji = {
+                'Self-care': '🏠',
+                'Teleconsultation': '📱',
+                'Hospital Visit': '🏥',
+                'Emergency': '🚨'
+            }[r.recommendation] || '💊';
+            const lvl = r.riskLevel || 'low';
+            const color = riskColor(lvl);
+            const id = 'exp_' + Date.now();
+
+            let factorsHTML = '';
+            (r.factors || []).forEach(f => {
+                factorsHTML += `<div class="factor-row">
+      <span class="factor-label">${escHtml(f.label)}</span>
+      <div class="factor-bar"><div class="factor-bar-fill" style="width:${f.value}%"></div></div>
+      <span class="factor-val">+${f.value}</span>
+    </div>`;
+            });
+
+            msgs.innerHTML += `
+    <div class="msg-row">
+      <div class="msg-avatar ai">🏥</div>
+      <div class="msg-bubble ai" style="max-width:85%;">
+        ${escHtml(r.responseText)}
+        <div class="risk-card">
+          <div class="risk-card-row">
+            <div>
+              <div style="font-size:0.65rem;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Risk Score</div>
+              <div class="risk-score-big" style="color:${color}">${r.riskScore}</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="risk-level-pill ${lvl}">${lvl.toUpperCase()}</div>
+              <div style="margin-top:6px;font-size:0.72rem;color:var(--gray);">${escHtml(r.explanation||'')}</div>
+            </div>
+          </div>
+          <div class="risk-bar-wrap">
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:${r.riskScore}%"></div></div>
+          </div>
+          <div class="rec-pill ${recClass}">${recEmoji} ${escHtml(r.recommendation)}</div>
+          ${r.suggestedSpec ? `<div style="font-size:0.75rem;color:var(--gray);margin-top:6px;">👨‍⚕️ See a <strong>${escHtml(r.suggestedSpec)}</strong></div>` : ''}
+        </div>
+        <button class="explain-toggle" onclick="toggleExplain('${id}')">🔍 Why this prediction? ▾</button>
+        <div class="explain-body" id="${id}">
+          <div style="font-size:0.78rem;font-weight:700;color:var(--gray);margin-bottom:8px;">Contributing Factors:</div>
+          ${factorsHTML}
+          <div style="font-size:0.78rem;color:var(--gray);margin-top:8px;line-height:1.5;">${escHtml(r.explanation||'')}</div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+          <button onclick="speakText(this)" data-text="${r.responseText.replace(/"/g,"'")}" style="padding:5px 10px;border:1px solid var(--gray-light);border-radius:8px;background:none;font-size:0.75rem;cursor:pointer;color:var(--gray);font-family:var(--font);font-weight:600;">🔊 Listen</button>
+          ${r.suggestedSpec ? `<button onclick="navTo('doctors')" style="padding:5px 10px;border:1px solid var(--teal-light);border-radius:8px;background:var(--teal-pale);font-size:0.75rem;cursor:pointer;color:var(--teal);font-family:var(--font);font-weight:600;">👨‍⚕️ Find Doctor</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  scrollChat();
+}
+
+function addErrorBubble(msg) {
+  const msgs = document.getElementById('chatMessages');
+  msgs.innerHTML += `
+    <div class="msg-row">
+      <div class="msg-avatar ai">🏥</div>
+      <div class="msg-bubble ai" style="color:var(--red);">⚠️ ${escHtml(msg)}</div>
+    </div>`;
+  scrollChat();
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  msgs.innerHTML += `
+    <div class="msg-row" id="typingRow">
+      <div class="msg-avatar ai">🏥</div>
+      <div class="msg-bubble ai"><div class="typing"><span></span><span></span><span></span></div></div>
+    </div>`;
+  scrollChat();
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingRow');
+  if(t) t.remove();
+}
+
+function scrollChat() {
+  const msgs = document.getElementById('chatMessages');
+  setTimeout(() => msgs.scrollTop = msgs.scrollHeight, 50);
+}
+
+function toggleExplain(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+// IMAGE IN CHAT
+// ═══════════════════════════════════════════
+function handleChatImage(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const msgs = document.getElementById('chatMessages');
+    msgs.innerHTML += `
+      <div class="msg-row user">
+        <div class="msg-avatar user-av">👤</div>
+        <div class="msg-bubble user">
+          <div style="font-size:0.82rem;margin-bottom:6px;">📷 Skin photo uploaded</div>
+          <img src="${e.target.result}" class="img-msg" alt="Skin photo">
+        </div>
+      </div>`;
+    scrollChat();
+    // trigger a chat message
+    document.getElementById('chatInput').value = 'I have uploaded a photo of my skin condition. Please analyze it.';
+    sendMessage();
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+// ═══════════════════════════════════════════
+// VOICE
+// ═══════════════════════════════════════════
+function setupVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) return;
+  APP.recognition = new SR();
+  APP.recognition.continuous = false;
+  APP.recognition.interimResults = true;
+  APP.recognition.onresult = e => {
+    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+    const ta = document.getElementById('chatInput');
+    ta.value = transcript;
+    autoResize(ta);
+    document.getElementById('voiceBarText').textContent = transcript || 'Listening...';
+  };
+  APP.recognition.onend = () => stopVoice();
+}
+
+function toggleVoice() {
+  if(!APP.recognition) { showToast('⚠️ Voice not supported in this browser'); return; }
+  if(APP.isRecording) { stopVoice(); return; }
+  const langMap = { en:'en-IN', hi:'hi-IN', te:'te-IN', ta:'ta-IN', kn:'kn-IN' };
+  APP.recognition.lang = langMap[APP.lang] || 'en-IN';
+  APP.recognition.start();
+  APP.isRecording = true;
+  document.getElementById('micBtn').classList.add('recording');
+  document.getElementById('voiceBar').classList.add('active');
+  document.getElementById('voiceBarText').textContent = 'Listening in ' + APP.lang.toUpperCase() + '...';
+}
+
+function stopVoice() {
+  if(APP.recognition) APP.recognition.stop();
+  APP.isRecording = false;
+  document.getElementById('micBtn').classList.remove('recording');
+  document.getElementById('voiceBar').classList.remove('active');
+}
+
+function speakText(btn) {
+  const text = btn.getAttribute('data-text');
+  if(!text || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  const langMap = { en:'en-IN', hi:'hi-IN', te:'te-IN', ta:'ta-IN', kn:'kn-IN' };
+  utt.lang = langMap[APP.lang] || 'en-IN';
+  utt.rate = 0.9;
+  btn.textContent = '🔊 Playing...';
+  utt.onend = () => btn.textContent = '🔊 Listen';
+  window.speechSynthesis.speak(utt);
+}
+
+// ═══════════════════════════════════════════
+// DOCTORS
+// ═══════════════════════════════════════════
+let activeSpec = 'All';
+function renderDoctors() {
+  const specs = ['All','General Physician','Cardiologist','Dermatologist','Pediatrician','Gynecologist','Orthopedic'];
+  const filters = document.getElementById('specFilters');
+  filters.innerHTML = '';
+  specs.forEach(s => {
+    const el = document.createElement('div');
+    el.className = 'fchip' + (s === activeSpec ? ' active' : '');
+    el.textContent = s;
+    el.onclick = () => { activeSpec = s; renderDoctors(); };
+    filters.appendChild(el);
+  });
+
+  const search = (document.getElementById('doctorSearch')||{}).value || '';
+  const list = document.getElementById('doctorList');
+  const filtered = DOCTORS.filter(d =>
+    (activeSpec === 'All' || d.spec === activeSpec) &&
+    (!search || d.name.toLowerCase().includes(search.toLowerCase()) || d.spec.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  list.innerHTML = '';
+  filtered.forEach(d => {
+    list.innerHTML += `
+      <div class="doctor-card">
+        <div class="doctor-avatar">${d.emoji}</div>
+        <div class="doctor-info">
+          <div class="doctor-name">${escHtml(d.name)}</div>
+          <div class="doctor-spec">${escHtml(d.spec)}</div>
+          <div class="doctor-hosp">🏥 ${escHtml(d.hosp)} · ${escHtml(d.dist)}</div>
+          <div class="doctor-row">
+            <span class="doctor-tag">${escHtml(d.qual)}</span>
+            <span class="doctor-tag">⏱ ${escHtml(d.exp)}</span>
+            <span class="doctor-tag">🕐 ${escHtml(d.avail)}</span>
+          </div>
+          <button class="doctor-call" onclick="showToast('📞 Calling ${escHtml(d.name)}...')">
+            📞 Call: ${escHtml(d.phone)}
+          </button>
+        </div>
+      </div>`;
+  });
+
+  if(!filtered.length) list.innerHTML = `<div class="empty-state"><div class="es-icon">🔍</div><p>No doctors found for your search.</p></div>`;
+}
+
+function filterDoctors() { renderDoctors(); }
+
+// ═══════════════════════════════════════════
+// HOSPITALS
+// ═══════════════════════════════════════════
+function renderHospitals() {
+  const districts = [...new Set(HOSPITALS.map(h => h.dist))].sort();
+  const df = document.getElementById('districtFilter');
+  df.innerHTML = '<option value="">All Districts</option>';
+  districts.forEach(d => df.innerHTML += `<option value="${d}">${d}</option>`);
+
+  filterHospitals();
+}
+
+function filterHospitals() {
+  const search = (document.getElementById('hospSearch')||{}).value?.toLowerCase() || '';
+  const dist = (document.getElementById('districtFilter')||{}).value || '';
+  const list = document.getElementById('hospitalList');
+
+  const filtered = HOSPITALS.filter(h =>
+    (!dist || h.dist === dist) &&
+    (!search || h.name.toLowerCase().includes(search) || h.dist.toLowerCase().includes(search))
+  );
+
+  list.innerHTML = '';
+  filtered.forEach(h => {
+    const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(h.name + ' ' + h.addr)}`;
+    list.innerHTML += `
+      <div class="hosp-card">
+        <div class="hosp-name">🏥 ${escHtml(h.name)}</div>
+        <div class="hosp-addr">📍 ${escHtml(h.addr)}</div>
+        <div class="hosp-tags">
+          ${h.emergency ? '<span class="hosp-tag emergency">🚨 Emergency 24/7</span>' : ''}
+          <span class="hosp-tag beds">🛏 ${h.beds} Beds</span>
+          <span class="hosp-tag phone">📞 ${escHtml(h.phone)}</span>
+        </div>
+        <a href="${mapsUrl}" target="_blank" style="text-decoration:none;">
+          <button class="hosp-directions">🗺️ Get Directions</button>
+        </a>
+      </div>`;
+  });
+
+  if(!filtered.length) list.innerHTML = `<div class="empty-state"><div class="es-icon">🔍</div><p>No hospitals found.</p></div>`;
+}
+
+// ═══════════════════════════════════════════
+// SKIN ANALYSIS
+// ═══════════════════════════════════════════
+async function analyzeSkin(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => runSkinAnalysis(e.target.result, '🖼️');
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function demoSkin(type) {
+  const condition = SKIN_CONDITIONS[type];
+  showSkinResult('🔬', condition.name, condition.severity, condition.desc, condition.rec);
+}
+
+async function runSkinAnalysis(imgData, emoji) {
+  const result = document.getElementById('skinResult');
+  result.classList.add('show');
+  document.getElementById('skinThumb').textContent = '⏳';
+  document.getElementById('skinCondition').textContent = 'Analyzing image...';
+  document.getElementById('skinSeverity').className = 'severity-badge';
+  document.getElementById('skinSeverity').textContent = '⏳ Processing';
+  document.getElementById('skinDesc').textContent = '';
+  document.getElementById('skinRec').textContent = '';
+
+  try {
+    const base64 = imgData.split(',')[1];
+    const mtype = imgData.split(';')[0].split(':')[1];
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        messages: [{ role: 'user', content: [
+          { type: 'image', source: { type: 'base64', media_type: mtype, data: base64 } },
+          { type: 'text', text: 'Analyze this skin image. Respond ONLY with JSON (no markdown): {"condition":"<name>","severity":"<mild|moderate|severe>","description":"<2 sentences>","recommendation":"<2-3 sentences>","requiresDoctor": <true|false>}' }
+        ]}]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
+    const r = JSON.parse(raw.match(/\{[\s\S]*\}/)[0]);
+    showSkinResult(emoji, r.condition, r.severity, r.description, r.recommendation);
+  } catch(e) {
+    showSkinResult('🔬', 'Analysis Complete', 'moderate', 'Unable to process image with AI. Please ensure good lighting and a clear photo.', 'Please consult a dermatologist or general physician for proper diagnosis.');
+  }
+}
+
+function showSkinResult(emoji, condition, severity, desc, rec) {
+  const result = document.getElementById('skinResult');
+  result.classList.add('show');
+  document.getElementById('skinThumb').textContent = emoji;
+  document.getElementById('skinCondition').textContent = condition;
+  const sb = document.getElementById('skinSeverity');
+  sb.className = 'severity-badge ' + severity;
+  sb.textContent = severity.charAt(0).toUpperCase() + severity.slice(1) + ' Severity';
+  document.getElementById('skinDesc').textContent = desc;
+  document.getElementById('skinRec').textContent = rec;
+  result.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// enter key sends
+document.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey && APP.currentScreen === 'chat') {
+    const ta = document.getElementById('chatInput');
+    if(document.activeElement === ta) { e.preventDefault(); sendMessage(); }
+  }
+});
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+setupVoice();
+    </script>
+</body>
+
+</html>
