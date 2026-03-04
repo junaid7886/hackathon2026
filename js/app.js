@@ -39,6 +39,41 @@ const INFERMEDICA = {
     interviewId: null
 };
 
+// ═══════════════════════════════════════════
+// ML CHATBOT API CONFIGURATION
+// ═══════════════════════════════════════════
+const ML_CHATBOT = {
+    baseUrl: 'http://localhost:5000',
+    enabled: true
+};
+
+// ML Chatbot API Functions
+async function mlChatbotPredict(message) {
+    try {
+        const response = await fetch(`${ML_CHATBOT.baseUrl}/api/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: message })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('ML Chatbot error:', error);
+        return null;
+    }
+}
+
+async function mlChatbotGetSymptoms() {
+    try {
+        const response = await fetch(`${ML_CHATBOT.baseUrl}/api/symptoms`);
+        return await response.json();
+    } catch (error) {
+        console.error('ML Chatbot symptoms error:', error);
+        return null;
+    }
+}
+
 // Infermedica API Functions
 async function infermedicaParse(text) {
     try {
@@ -472,23 +507,129 @@ async function sendMessage() {
             content: m.content
         }));
 
-        // Get Infermedica analysis in parallel (if API keys are configured)
-        let infermedicaData = null;
-        let infermedicaContext = '';
+        let result;
 
-        if (INFERMEDICA.appId !== 'YOUR_INFERMEDICA_APP_ID') {
-            infermedicaData = await getInfermedicaAnalysis(translated);
-            if (infermedicaData && infermedicaData.conditions.length > 0) {
-                infermedicaContext = `\n\nInfermedica Medical API Analysis:
+        // Try ML Chatbot API first
+        if (ML_CHATBOT.enabled) {
+            const mlResponse = await mlChatbotPredict(translated);
+            
+            if (mlResponse && mlResponse.type === 'diagnosis' && mlResponse.prediction) {
+                // Convert ML response to expected format
+                const pred = mlResponse.prediction;
+                const info = pred.info || {};
+                
+                // Determine risk level based on severity
+                let riskLevel = 'low';
+                let riskScore = 30;
+                let recommendation = 'Self-care';
+                
+                if (info.severity === 'emergency') {
+                    riskLevel = 'critical';
+                    riskScore = 95;
+                    recommendation = 'Emergency';
+                } else if (info.severity === 'severe') {
+                    riskLevel = 'high';
+                    riskScore = 75;
+                    recommendation = 'Hospital Visit';
+                } else if (info.severity === 'moderate' || info.severity === 'moderate to severe') {
+                    riskLevel = 'moderate';
+                    riskScore = 55;
+                    recommendation = 'Teleconsultation';
+                } else if (info.severity === 'chronic') {
+                    riskLevel = 'moderate';
+                    riskScore = 50;
+                    recommendation = 'Teleconsultation';
+                }
+                
+                // Adjust for patient profile
+                if (profile.diabetes || profile.bp || profile.heart) {
+                    riskScore = Math.min(100, riskScore + 10);
+                }
+                
+                // Get suggested specialist based on disease
+                let suggestedSpec = 'General Physician';
+                const disease = pred.disease.toLowerCase();
+                if (disease.includes('heart') || disease.includes('hypertension')) suggestedSpec = 'Cardiologist';
+                else if (disease.includes('skin') || disease.includes('fungal') || disease.includes('acne') || disease.includes('psoriasis')) suggestedSpec = 'Dermatologist';
+                else if (disease.includes('gastro') || disease.includes('gerd') || disease.includes('peptic') || disease.includes('hepatitis') || disease.includes('jaundice')) suggestedSpec = 'Gastroenterologist';
+                else if (disease.includes('diabetes')) suggestedSpec = 'Endocrinologist';
+                else if (disease.includes('asthma') || disease.includes('pneumonia') || disease.includes('bronchial') || disease.includes('tuberculosis')) suggestedSpec = 'Pulmonologist';
+                else if (disease.includes('arthritis')) suggestedSpec = 'Rheumatologist';
+                else if (disease.includes('migraine')) suggestedSpec = 'Neurologist';
+                else if (disease.includes('typhoid') || disease.includes('malaria') || disease.includes('dengue')) suggestedSpec = 'Infectious Disease Specialist';
+                
+                // Build response text
+                let responseText = `Based on the ML analysis, you may have **${pred.disease}**.\n\n`;
+                responseText += `${info.description || ''}\n\n`;
+                if (info.recommendations && info.recommendations.length > 0) {
+                    responseText += '**Recommendations:**\n';
+                    info.recommendations.forEach(rec => {
+                        responseText += `• ${rec}\n`;
+                    });
+                }
+                if (info.see_doctor) {
+                    responseText += `\n**When to see a doctor:** ${info.see_doctor}`;
+                }
+                
+                // Build possible conditions from top predictions
+                const possibleConditions = (pred.top_predictions || []).map(p => ({
+                    name: p.disease,
+                    probability: Math.round(p.probability * 100)
+                }));
+                
+                result = {
+                    responseText: responseText.replace(/\*\*/g, ''),
+                    riskScore: riskScore,
+                    riskLevel: riskLevel,
+                    recommendation: recommendation,
+                    explanation: `ML Model detected ${pred.symptoms_matched.length} symptoms: ${pred.symptoms_matched.join(', ')}. Confidence: ${pred.confidence ? Math.round(pred.confidence * 100) + '%' : 'N/A'}`,
+                    factors: [
+                        { label: 'Symptom Match', value: Math.min(100, pred.symptoms_matched.length * 25) },
+                        { label: 'Model Confidence', value: pred.confidence ? Math.round(pred.confidence * 100) : 50 },
+                        { label: 'Profile Risk', value: (profile.diabetes || profile.bp || profile.heart) ? 60 : 20 }
+                    ],
+                    detectedSymptoms: pred.symptoms_matched,
+                    suggestedSpec: suggestedSpec,
+                    possibleConditions: possibleConditions,
+                    mlPowered: true,
+                    disease: pred.disease
+                };
+            } else if (mlResponse && mlResponse.response) {
+                // Handle greeting/farewell/clarification messages
+                result = {
+                    responseText: mlResponse.response,
+                    riskScore: 0,
+                    riskLevel: 'low',
+                    recommendation: 'Self-care',
+                    explanation: 'General conversation',
+                    factors: [],
+                    detectedSymptoms: [],
+                    suggestedSpec: null,
+                    possibleConditions: []
+                };
+            }
+        }
+        
+        // Fall back to local response if ML API fails
+        if (!result) {
+            // Get Infermedica analysis in parallel (if API keys are configured)
+            let infermedicaData = null;
+            let infermedicaContext = '';
+
+            if (INFERMEDICA.appId !== 'YOUR_INFERMEDICA_APP_ID') {
+                infermedicaData = await getInfermedicaAnalysis(translated);
+                if (infermedicaData && infermedicaData.conditions.length > 0) {
+                    infermedicaContext = `\n\nInfermedica Medical API Analysis:
 - Detected symptoms: ${infermedicaData.symptoms.join(', ')}
 - Possible conditions: ${infermedicaData.conditions.map(c => `${c.name} (${c.probability}%)`).join(', ')}
 - Triage level: ${infermedicaData.triage}
 Use this clinical data to inform your risk assessment.`;
+                }
             }
-        }
 
-        // Generate local AI response (simulated for demo without backend)
-        const result = generateLocalResponse(translated, profile);
+            // Generate local AI response (simulated for demo without backend)
+            result = generateLocalResponse(translated, profile);
+        }
         
         removeTypingIndicator();
         addAIMessage(result);
@@ -696,7 +837,7 @@ function addAIMessage(result) {
                     
                     ${result.possibleConditions && result.possibleConditions.length > 0 ? `
                         <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-200);">
-                            <p style="font-size:0.75rem;color:var(--gray-500);margin-bottom:8px;">🔬 Possible Conditions (Infermedica Analysis):</p>
+                            <p style="font-size:0.75rem;color:var(--gray-500);margin-bottom:8px;">🔬 Possible Conditions ${result.mlPowered ? '(ML Model Analysis)' : '(Infermedica Analysis)'}:</p>
                             <div style="display:flex;flex-wrap:wrap;gap:6px;">
                                 ${result.possibleConditions.slice(0, 3).map(c => `
                                     <span style="padding:4px 10px;background:rgba(52,152,219,0.1);border-radius:12px;font-size:0.8rem;color:#3498db;">
@@ -704,6 +845,12 @@ function addAIMessage(result) {
                                     </span>
                                 `).join('')}
                             </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${result.mlPowered ? `
+                        <div style="margin-top:12px;padding:8px 12px;background:rgba(16,185,129,0.1);border-radius:8px;display:inline-block;">
+                            <span style="font-size:0.8rem;color:#10b981;">🤖 Powered by <strong>ML Disease Prediction Model</strong></span>
                         </div>
                     ` : ''}
                 </div>
@@ -720,13 +867,13 @@ function addAIMessage(result) {
                 </details>
                 
                 <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
-                    <button onclick="speakText('${result.responseText.replace(/'/g, "\\'")}')" 
+                    <button onclick="speakText('${result.responseText.replace(/'/g, "\\'")}')"
                             class="btn btn-sm btn-secondary">
                         🔊 Listen
                     </button>
                     ${result.suggestedSpec ? `
-                        <a href="doctors.html" class="btn btn-sm btn-primary">
-                            👨‍⚕️ Find Doctor
+                        <a href="doctors.html?spec=${encodeURIComponent(result.suggestedSpec)}" class="btn btn-sm btn-primary">
+                            👨‍⚕️ Find ${result.suggestedSpec}
                         </a>
                     ` : ''}
                 </div>

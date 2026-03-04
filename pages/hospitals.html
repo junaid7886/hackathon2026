@@ -12,20 +12,45 @@
         .hospitals-header {
             text-align: center;
             padding: 40px 20px;
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, #f43f5e, #ec4899, #a855f7);
             color: white;
             margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hospitals-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
         }
         
         .hospitals-header h1 {
             font-family: var(--font-display);
             font-size: 2.5rem;
             margin-bottom: 10px;
+            position: relative;
         }
         
         .hospitals-header p {
             opacity: 0.9;
             font-size: 1.1rem;
+            position: relative;
         }
         
         .search-filters {
@@ -45,15 +70,15 @@
         .search-row {
             display: flex;
             gap: 15px;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             justify-content: center;
             align-items: center;
         }
         
         .search-row .form-select {
-            min-width: 180px;
-            flex: 0 0 auto;
+            flex: 1;
+            min-width: 0;
             color: #333;
             background-color: #fff;
             text-align: center;
@@ -76,14 +101,30 @@
             padding: 25px;
             box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
-            border: 1px solid var(--border-light);
+            border: 1px solid rgba(99, 102, 241, 0.1);
             position: relative;
             overflow: hidden;
         }
         
+        .hospital-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f43f5e, #ec4899, #a855f7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .hospital-card:hover::after {
+            opacity: 1;
+        }
+        
         .hospital-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.15);
         }
         
         .hospital-card.emergency::before {
@@ -91,12 +132,23 @@
             position: absolute;
             top: 0;
             right: 0;
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, #f43f5e, #ec4899);
             color: white;
             padding: 6px 12px;
             font-size: 0.75rem;
             font-weight: 700;
             border-radius: 0 var(--radius-xl) 0 var(--radius-lg);
+            animation: emergencyPulse 2s infinite;
+        }
+        
+        @keyframes emergencyPulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
         }
         
         .hospital-header {
@@ -109,12 +161,23 @@
             width: 60px;
             height: 60px;
             border-radius: var(--radius-lg);
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, #f43f5e, #ec4899);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
             flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(244, 63, 94, 0.3);
+        }
+        
+        .hospitals-grid .hospital-card:nth-child(2n) .hospital-icon {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .hospitals-grid .hospital-card:nth-child(3n) .hospital-icon {
+            background: linear-gradient(135deg, #06b6d4, #10b981);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
         }
         
         .hospital-info h3 {
@@ -274,6 +337,12 @@
             .search-filters {
                 top: 60px;
             }
+            .search-row {
+                flex-direction: column;
+            }
+            .search-row .form-select {
+                width: 100%;
+            }
             .hospitals-grid {
                 grid-template-columns: 1fr;
                 padding: 20px 15px;
@@ -310,6 +379,10 @@
                 <a href="hospitals.html" class="nav-link active">
                     <span class="nav-icon">🏥</span>
                     <span>Hospitals</span>
+                </a>
+                <a href="health-records.html" class="nav-link">
+                    <span class="nav-icon">📋</span>
+                    <span>Records</span>
                 </a>
                 <a href="profile.html" class="nav-link">
                     <span class="nav-icon">👤</span>
@@ -478,6 +551,7 @@
             `).join('');
         }
     </script>
+    <script src="../js/tracker.js"></script>
 </body>
 
 </html>
