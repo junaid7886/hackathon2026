@@ -1,6 +1,124 @@
 {
   "activities": [
     {
+      "id": "act_1772704846910_61vzs4r3s",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "index",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772704830602_ss94te8j",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T10:00:46.910Z",
+      "date": "5/3/2026",
+      "time": "3:30:46 pm"
+    },
+    {
+      "id": "act_1772704846563_uxhrqutyp",
+      "userId": "user_1",
+      "type": "form_submit",
+      "page": "index",
+      "details": {
+        "formId": "loginForm",
+        "formAction": "https://hackathon2026-4.onrender.com/",
+        "sessionId": "session_1772704830602_ss94te8j",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T10:00:46.563Z",
+      "date": "5/3/2026",
+      "time": "3:30:46 pm"
+    },
+    {
+      "id": "act_1772704846545_me3hr8nwk",
+      "userId": "user_1",
+      "type": "page_exit",
+      "page": "index",
+      "details": {
+        "timeSpent": "24s",
+        "sessionId": "session_1772704830602_ss94te8j",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T10:00:46.545Z",
+      "date": "5/3/2026",
+      "time": "3:30:46 pm"
+    },
+    {
+      "id": "act_1772704846527_v9mzxrvqu",
+      "userId": "user_1",
+      "type": "button_click",
+      "page": "index",
+      "details": {
+        "buttonText": "🔐 Login to Quick Care",
+        "buttonId": "btn btn-primary btn-block",
+        "sessionId": "session_1772704830602_ss94te8j",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T10:00:46.527Z",
+      "date": "5/3/2026",
+      "time": "3:30:46 pm"
+    },
+    {
+      "id": "act_1772704836426_211z612ul",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "index",
+      "details": {
+        "pageTitle": "Quick Care — Early Risk Detection for Rural Healthcare",
+        "referrer": "direct",
+        "url": "https://hackathon2026-4.onrender.com/",
+        "sessionId": "session_1772704830602_ss94te8j",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "1528x732",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T10:00:36.426Z",
+      "date": "5/3/2026",
+      "time": "3:30:36 pm"
+    },
+    {
+      "id": "act_1772704370457_40dj6grg6",
+      "userId": "user_1",
+      "type": "page_blur",
+      "page": "chat",
+      "details": {
+        "action": "left",
+        "sessionId": "session_1772704367766_44yxqobbr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "858x726",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T09:52:50.457Z",
+      "date": "5/3/2026",
+      "time": "3:22:50 pm"
+    },
+    {
+      "id": "act_1772704367887_yh6d3iuqe",
+      "userId": "user_1",
+      "type": "page_visit",
+      "page": "chat",
+      "details": {
+        "pageTitle": "Health Chat — Quick Care",
+        "referrer": "dashboard.html",
+        "url": "http://localhost:3000/pages/chat.html",
+        "sessionId": "session_1772704367766_44yxqobbr",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+        "screenSize": "858x726",
+        "language": "en-GB"
+      },
+      "timestamp": "2026-03-05T09:52:47.887Z",
+      "date": "5/3/2026",
+      "time": "3:22:47 pm"
+    },
+    {
       "id": "act_1772704258689_d4vk7yfl6",
       "userId": "user_1",
       "type": "page_blur",
@@ -16573,124 +16691,6 @@
       "timestamp": "2026-03-04T11:48:49.311Z",
       "date": "4/3/2026",
       "time": "5:18:49 pm"
-    },
-    {
-      "id": "act_1772624929277_mnuleeqc3",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "dashboard",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:49.277Z",
-      "date": "4/3/2026",
-      "time": "5:18:49 pm"
-    },
-    {
-      "id": "act_1772624929247_2g89pmf0y",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "dashboard",
-      "details": {
-        "timeSpent": "9s",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:49.247Z",
-      "date": "4/3/2026",
-      "time": "5:18:49 pm"
-    },
-    {
-      "id": "act_1772624929239_k6doyc8mq",
-      "userId": "user_1",
-      "type": "link_click",
-      "page": "dashboard",
-      "details": {
-        "linkText": "Chat",
-        "linkHref": "no-href",
-        "linkId": "",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:49.239Z",
-      "date": "4/3/2026",
-      "time": "5:18:49 pm"
-    },
-    {
-      "id": "act_1772624920004_5dd55w9ew",
-      "userId": "user_1",
-      "type": "page_visit",
-      "page": "dashboard",
-      "details": {
-        "pageTitle": "Dashboard — RuralMed AI",
-        "referrer": "chat.html",
-        "url": "http://localhost:3000/pages/dashboard.html",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:40.004Z",
-      "date": "4/3/2026",
-      "time": "5:18:40 pm"
-    },
-    {
-      "id": "act_1772624919976_9fiykflpp",
-      "userId": "user_1",
-      "type": "page_blur",
-      "page": "chat",
-      "details": {
-        "action": "left",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:39.976Z",
-      "date": "4/3/2026",
-      "time": "5:18:39 pm"
-    },
-    {
-      "id": "act_1772624919958_xr892gupv",
-      "userId": "user_1",
-      "type": "page_exit",
-      "page": "chat",
-      "details": {
-        "timeSpent": "1s",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:39.958Z",
-      "date": "4/3/2026",
-      "time": "5:18:39 pm"
-    },
-    {
-      "id": "act_1772624919952_wrdbnn03x",
-      "userId": "user_1",
-      "type": "link_click",
-      "page": "chat",
-      "details": {
-        "linkText": "🏠",
-        "linkHref": "no-href",
-        "linkId": "",
-        "sessionId": "session_1772623676162_2rdisvmjr",
-        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
-        "screenSize": "1528x732",
-        "language": "en-GB"
-      },
-      "timestamp": "2026-03-04T11:48:39.952Z",
-      "date": "4/3/2026",
-      "time": "5:18:39 pm"
     }
   ]
 }
