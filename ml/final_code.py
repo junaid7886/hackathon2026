@@ -115,10 +115,7 @@ def train_models(X_train, y_train):
     print("\nTraining models...")
     
     models = {
-        'RandomForest': RandomForestClassifier(n_estimators=100, random_state=42),
-        'GradientBoosting': GradientBoostingClassifier(n_estimators=100, random_state=42),
-        'SVM': SVC(kernel='linear', probability=True, random_state=42),
-        'NaiveBayes': MultinomialNB()
+        'RandomForest': RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1),
     }
     
     best_model = None
@@ -129,7 +126,7 @@ def train_models(X_train, y_train):
         print(f"\nTraining {name}...")
         
         # Cross-validation
-        cv_scores = cross_val_score(model, X_train, y_train, cv=5)
+        cv_scores = cross_val_score(model, X_train, y_train, cv=5, n_jobs=-1)
         mean_score = cv_scores.mean()
         
         print(f"  Cross-validation accuracy: {mean_score:.4f} (+/- {cv_scores.std() * 2:.4f})")

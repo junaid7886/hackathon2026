@@ -45,90 +45,6 @@ const LANG_STRINGS = {
         skinAnalysis: 'Skin Analysis',
         findDoctors: 'Find Doctors',
         healthcareFingers: 'Healthcare at your fingertips'
-    },
-    hi: {
-        greeting: 'नमस्ते, %name% 👋',
-        howFeel: 'आज आप कैसा महसूस कर रहे हैं?',
-        welcome: 'स्वागत है',
-        home: 'होम',
-        chat: 'चैट',
-        doctors: 'डॉक्टर',
-        hospitals: 'अस्पताल',
-        profile: 'प्रोफ़ाइल',
-        skin: 'त्वचा',
-        // Index page translations
-        aiPowered: 'एआई-संचालित स्वास्थ्य सेवा',
-        quickCare: 'क्विक केयर',
-        heroSubtitle: 'भारत भर के ग्रामीण समुदायों के लिए प्रारंभिक जोखिम पहचान और स्मार्ट स्वास्थ्य मार्गदर्शन',
-        voiceSupport: 'वॉइस सपोर्ट',
-        multiLanguage: 'बहु-भाषा',
-        offlineCapable: 'ऑफ़लाइन उपयोग',
-        login: 'लॉगिन',
-        register: 'रजिस्टर',
-        emailAddress: 'ईमेल पता',
-        emailPlaceholder: 'yourname@email.com',
-        password: 'पासवर्ड',
-        passwordPlaceholder: 'अपना पासवर्ड दर्ज करें',
-        loginBtn: '🔐 क्विक केयर में लॉगिन करें',
-        demoText: 'डेमो: लॉगिन के लिए कोई भी ईमेल और पासवर्ड का उपयोग करें',
-        fullName: 'पूरा नाम',
-        namePlaceholder: 'उदा. रवि कुमार',
-        age: 'आयु',
-        gender: 'लिंग',
-        selectGender: 'चुनें',
-        male: 'पुरुष',
-        female: 'महिला',
-        other: 'अन्य',
-        minChars: 'न्यूनतम 8 वर्ण',
-        preferredLang: 'पसंदीदा भाषा',
-        createAccount: '✅ खाता बनाएं',
-        trustedBy: 'भारत भर के ग्रामीण स्वास्थ्य कार्यकर्ताओं द्वारा विश्वसनीय',
-        aiChat: 'एआई चैट',
-        skinAnalysis: 'त्वचा विश्लेषण',
-        findDoctors: 'डॉक्टर खोजें',
-        healthcareFingers: 'आपकी उंगलियों पर स्वास्थ्य सेवा'
-    },
-    te: {
-        greeting: 'నమస్కారం, %name% 👋',
-        howFeel: 'ఈరోజు మీకు ఎలా అనిపిస్తోంది?',
-        welcome: 'స్వాగతం',
-        home: 'హోమ్',
-        chat: 'చాట్',
-        doctors: 'డాక్టర్లు',
-        hospitals: 'ఆసుపత్రులు',
-        profile: 'ప్రొఫైల్',
-        skin: 'చర్మం',
-        // Index page translations
-        aiPowered: 'AI-ఆధారిత ఆరోగ్య సంరక్షణ',
-        quickCare: 'క్విక్ కేర్',
-        heroSubtitle: 'భారతదేశంలోని గ్రామీణ సమాజాల కోసం ముందస్తు రిస్క్ గుర్తింపు మరియు స్మార్ట్ ఆరోగ్య మార్గదర్శకత్వం',
-        voiceSupport: 'వాయిస్ సపోర్ట్',
-        multiLanguage: 'బహుళ-భాష',
-        offlineCapable: 'ఆఫ్‌లైన్ సామర్థ్యం',
-        login: 'లాగిన్',
-        register: 'రిజిస్టర్',
-        emailAddress: 'ఇమెయిల్ చిరునామా',
-        emailPlaceholder: 'yourname@email.com',
-        password: 'పాస్‌వర్డ్',
-        passwordPlaceholder: 'మీ పాస్‌వర్డ్ నమోదు చేయండి',
-        loginBtn: '🔐 క్విక్ కేర్‌లో లాగిన్ అవ్వండి',
-        demoText: 'డెమో: లాగిన్ కోసం ఏదైనా ఇమెయిల్ మరియు పాస్‌వర్డ్ ఉపయోగించండి',
-        fullName: 'పూర్తి పేరు',
-        namePlaceholder: 'ఉదా. రవి కుమార్',
-        age: 'వయస్సు',
-        gender: 'లింగం',
-        selectGender: 'ఎంచుకోండి',
-        male: 'పురుషుడు',
-        female: 'స్త్రీ',
-        other: 'ఇతర',
-        minChars: 'కనీసం 8 అక్షరాలు',
-        preferredLang: 'ఇష్టపడే భాష',
-        createAccount: '✅ ఖాతా సృష్టించు',
-        trustedBy: 'భారతదేశం అంతటా గ్రామీణ ఆరోగ్య కార్యకర్తలచే విశ్వసనీయం',
-        aiChat: 'AI చాట్',
-        skinAnalysis: 'చర్మ విశ్లేషణ',
-        findDoctors: 'వైద్యులను కనుగొనండి',
-        healthcareFingers: 'మీ వేలికొసల్లో ఆరోగ్య సంరక్షణ'
     }
 };
 
@@ -138,38 +54,11 @@ const SYMPTOM_CHIPS = {
         '🤒 Fever', '🤕 Headache', '🫀 Chest Pain', '😮‍💨 Breathlessness',
         '🤢 Nausea', '💊 Vomiting', '😵 Dizziness', '😫 Fatigue',
         '🤧 Cold/Cough', '🦷 Tooth Pain', '👁️ Eye Problem', '🦵 Joint Pain'
-    ],
-    hi: [
-        '🤒 बुखार', '🤕 सिर दर्द', '🫀 सीने में दर्द', '😮‍💨 सांस की तकलीफ',
-        '🤢 मतली', '💊 उल्टी', '😵 चक्कर', '😫 थकान',
-        '🤧 जुकाम', '🦷 दांत दर्द', '👁️ आंख की समस्या', '🦵 जोड़ों का दर्द'
-    ],
-    te: [
-        '🤒 జ్వరం', '🤕 తలనొప్పి', '🫀 ఛాతీ నొప్పి', '😮‍💨 శ్వాస తక్కువ',
-        '🤢 వికారం', '💊 వాంతులు', '😵 తలతిరగడం', '😫 అలసట',
-        '🤧 జలుబు', '🦷 పంటి నొప్పి', '👁️ కంటి సమస్య', '🦵 కీళ్ళ నొప్పి'
     ]
 };
 
 // Slang/Regional terms translation
 const SLANG_MAP = {
-    // Telugu terms
-    'uchchu': 'fever',
-    'tala noppi': 'headache',
-    'ratta potu': 'vomiting',
-    'oka teesuko': 'breathlessness',
-    'goddu noppi': 'stomach pain',
-    'noru noppi': 'throat pain',
-    // Hindi terms
-    'bukhar': 'fever',
-    'sar dard': 'headache',
-    'ulti': 'vomiting',
-    'pet dard': 'stomach pain',
-    'sans nahi': 'breathlessness',
-    'seena dard': 'chest pain',
-    'chakkar': 'dizziness',
-    'kamzori': 'weakness',
-    'thakaan': 'fatigue'
 };
 
 // Doctors Database

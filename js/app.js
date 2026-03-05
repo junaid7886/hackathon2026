@@ -43,7 +43,7 @@ const INFERMEDICA = {
 // ML CHATBOT API CONFIGURATION
 // ═══════════════════════════════════════════
 const ML_CHATBOT = {
-    baseUrl: window.location.hostname === 'localhost' ? 'http://localhost:3000' : '',
+    baseUrl: 'http://localhost:5000', // Local ML API
     enabled: true
 };
 

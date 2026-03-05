@@ -95,8 +95,6 @@ RuralMed AI supports the following languages:
 | Language | Code | Voice Support |
 |----------|------|---------------|
 | English  | en   | ✅ |
-| Hindi    | hi   | ✅ |
-| Telugu   | te   | ✅ |
 | Tamil    | ta   | ✅ |
 | Kannada  | kn   | ✅ |
 
